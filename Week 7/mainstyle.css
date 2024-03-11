@@ -11,3 +11,9 @@ body {text-align: center}
       font-family: fantasy;
       font-size: 22px;
     }
+.splash {
+      background-image: "Spacewalker1.jpeg";
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
