@@ -1,5 +1,8 @@
 h2 {
-    background-color: skyblue;
     text-align: center;
     }
-    body {text-align: center}
+body {text-align: center}
+    
+h2{
+      color: blue;
+    }
