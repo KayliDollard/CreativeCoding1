@@ -12,9 +12,5 @@ body {text-align: center}
       font-size: 22px;
     }
 .splash {
-    background{
       background-image: "Spacewalker1.jpg";
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-    }}
+}
