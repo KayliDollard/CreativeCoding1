@@ -5,13 +5,15 @@
         function validateForm() {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
+            const agree = document.getElementById('agree').value;
             const form = document.getElementById('form');
             const errorElement = document.getElementById('error');
+            let isValid = true;
 
             if (name.trim() === '') {
                 document.getElementById('name').style.borderColor = 'red';
                 errorElement.innerText = 'Name is a required field.';
-                return false; // Prevent form submission
+                isValid = false;
             } else {
                 document.getElementById('name').style.borderColor = '';
             }
@@ -19,9 +21,21 @@
             if (phone.trim() === '') {
                 document.getElementById('phone').style.borderColor = 'red';
                 errorElement.innerText = 'Phone Number is a required field.';
-                return false; // Prevent form submission
+                isValid = false;
             } else {
                 document.getElementById('phone').style.borderColor = '';
+            }
+
+            if (agree.trim() === '') {
+                document.getElementById('agree').style.borderColor = 'red';
+                errorElement.innerText = 'Terms of Service is a required field.';
+                isValid = false;
+            } else {
+                document.getElementById('agree').style.borderColor = '';
+            }
+
+            if (!isValid) {
+                return false; // Prevent form submission
             }
             
             return true; // Allow form submission
