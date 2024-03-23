@@ -8,13 +8,13 @@
             const agree = document.getElementById('agree').value;
             const form = document.getElementById('form');
 
-            if (name.value() === '' || name.value() === null) {
+            if (name.trim() === '' || name.trim() === null) {
                 document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
 
-            if (phone.value() === '') {
+            if (phone.trim() === '') {
                 document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
 
-            if (agree.value() === '') {
+            if (agree.trim() === '') {
                 document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
         }
     </script>
