@@ -8,6 +8,11 @@ form.addEventListener('submit', (e) => {
   if (name.value === '' || name.value == null) {
     messages.push('Must enter your name.')
   }
+
+  if (phone.value === '' || phone.value == null) {
+    messages.push('Must enter you phone number.')
+  }
+
   if (messages.length > 0) {
    e.preventDefault()
    errorElement.innerText = messages.join(', ')
