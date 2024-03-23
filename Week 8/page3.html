@@ -1,28 +1,49 @@
-<html>
 <head>
     <title>What is your info</title>
+    <style>
+        .error {
+            border: 1px solid red;
+        }
+    </style>
     <script>
         function validateForm(event) {
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const agree = document.getElementById('agree').value;
             const form = document.getElementById('form');
+            let isValid = true;
 
             if (name.trim() === '') {
-                document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
+                document.getElementById('name').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('name').classList.remove('error');
+            }
 
             if (phone.trim() === '') {
-                document.getElementById('phone').style.borderColor = 'red'; event.preventDefault;}
+                document.getElementById('phone').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('phone').classList.remove('error');
+            }
 
             if (agree.trim() === '') {
-                document.getElementById('agree').style.borderColor = 'red'; event.preventDefault;}
+                document.getElementById('agree').classList.add('error');
+                isValid = false;
+            } else {
+                document.getElementById('agree').classList.remove('error');
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
         }
     </script>
 </head>
 <body style="background-color: SkyBlue;">
     <h3>What is your contact information?</h3>
     <br>
-    <form id="form" onsubmit=validateForm(event)>
+    <form id="form" onsubmit="validateForm(event)">
         <label for="name">Name</label> <br>
         <input id="name" name="name" type="text"> <br>
         <label for="phone">Phone Number</label> <br>
@@ -40,4 +61,3 @@
     <br>
     <a href="page2.html" id="linktime">Spooky Stuff</a>
 </body>
-</html>
