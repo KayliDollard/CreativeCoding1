@@ -9,13 +9,13 @@
             const form = document.getElementById('form');
 
             if (name.value() === '' || name.value() === null) {
-                document.getElementById('name').style.borderColor = 'red';}
+                document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
 
             if (phone.value() === '') {
-                document.getElementById('name').style.borderColor = 'red';}
+                document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
 
             if (agree.value() === '') {
-                document.getElementById('name').style.borderColor = 'red';}
+                document.getElementById('name').style.borderColor = 'red'; event.preventDefault;}
         }
     </script>
 </head>
