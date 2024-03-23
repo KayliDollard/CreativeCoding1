@@ -1,27 +1,21 @@
 <html>
     <title>What is your info</title>
-    <head>
-        <script>
-        function getData()
-        {
-            var name = document.getElementById("name").value;
-            var phone = document.getElementById("phone").value;
-
-            
-
-            window.alert("your info: " + name + phone);
-        }
-        </script>
-    </head>
-    <body style="background-color: SkyBlue;">
-        <h3>What is your contact information?</h3>
-        <br>
-        <form style="background-color: SkyBlue">
-            <input type="text" value = " " id="ame">Name<br>
-            <input type="text" value=" " id="phone">Phone<br>
-          
-            <button id="btnSubmit" class="btn btn-primary" onClick="getData();">Submit My Info</button>
-        </form>
+        <script defer src="script.js"></script>
+       <head></head>
+       <body>
+           <div id="error"></div>
+         <form action="/" method="GET"
+           <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text">
+           </div>
+           <div>
+               <label for="phone">Phone Number</label>
+               <input id="phone" name="phone" type="text">
+          </div>
+             <button type="submit">Submit</button>
+         </form>
+         </body>
         <br>
        <br>
       <a href="index.html" id="linktime">Home Page</a><br>
