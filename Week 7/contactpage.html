@@ -1,0 +1,34 @@
+<html>
+    <title>What is your info</title>
+    <head>
+        <script>
+        function getData()
+        {
+            var name = document.getElementById("name").value;
+            var phone = document.getElementById("phone").value;
+
+            
+
+            window.alert("your info: " + name + phone);
+        }
+        </script>
+    </head>
+    <body style="background-color: SkyBlue;">
+        <h3>What is your contact information?</h3>
+        <br>
+        <form style="background-color: SkyBlue">
+            <input type="text" value = " " id="ame">Name<br>
+            <input type="text" value=" " id="phone">Phone<br>
+          
+            <button id="btnSubmit" class="btn btn-primary" onClick="getData();">Submit My Info</button>
+        </form>
+        <br>
+       <br>
+      <a href="index.html" id="linktime">Home Page</a><br>
+        <br>
+        <a href="page1.html" id="linktime">My Main Sci-Fi World</a>
+        <br>
+        <br>
+        <a href="page2.html" id="linktime">Spooky Stuff</a>
+    </body>
+</html>
