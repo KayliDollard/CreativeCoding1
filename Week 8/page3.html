@@ -8,12 +8,12 @@
             const agree = document.getElementById('agree').value;
             const form = document.getElementById('form');
 
-            if (name.value() === '') {
+            if (name.value() === '' || name.value() === null) {
                 document.getElementById('name').style.borderColor = 'red';}
 
             if (phone.value() === '') {
                 document.getElementById('name').style.borderColor = 'red';}
-                
+
             if (agree.value() === '') {
                 document.getElementById('name').style.borderColor = 'red';}
         }
