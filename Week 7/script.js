@@ -6,10 +6,10 @@ const errorElement = document.getElementById('error')
 form.addEventListener('submit', (e) => {
   let messages = []
   if (name.value === '' || name.value == null) {
-    message.push('Must enter your name.')
+    messages.push('Must enter your name.')
   }
-  if (message.length > 0) {
+  if (messages.length > 0) {
    e.preventDefault()
-   errorElement.innerText = message.join(', ')
+   errorElement.innerText = messages.join(', ')
   }
 })
