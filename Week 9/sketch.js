@@ -55,5 +55,4 @@ function draw()
     fill(30,144,255);
     textSize(22);
     text("Kayli Dollard",270,550 );
-  
 }
