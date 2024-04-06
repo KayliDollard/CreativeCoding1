@@ -6,6 +6,14 @@ var movement = 5;
 var circleright = 200;
 var circleleft = 180;
 
+var headx = 230; 
+var heady = 250; 
+var dia = 175;
+
+var size = 22;
+var count = 0;
+var sizeDirection = 1;
+
 function setup()
 {
     createCanvas(500, 600);
@@ -18,13 +26,30 @@ function draw()
 {
     background(240,128,128);
     fill(0,0,0)
-    textSize(22)
+    textSize(size);
+    size+= sizeDirection;
+    count++;
+    if(count > 5)
+    {
+        sizeDirection *=-1;
+        count = 0;
+    }
     text("Kayli but Shapes!", 150,30);
   
   //head
     strokeWeight(5)
     fill(222,184,135);
-    circle(230,250,175);
+    circle(headx,heady,dia);
+    if (headx + dia / 2 >= width || headx - dia / 2 <= 0) { 
+        movement *= -1;
+    }
+    if (heady + dia / 2 >= height || heady - dia / 2 <= 0) {
+        movement *= -1;
+    }
+    {headx += movement;
+    heady += movement;}
+     
+
   
   // eyes
     fill(95,158,160);
@@ -67,7 +92,7 @@ function draw()
     triangle(230, 275, 220, 290, 240, 290);
     
   //arm
-    line(100,250,180,340,);
+    line(100,250,180,340);
     line(265,350,360,375);
   
   //hair
