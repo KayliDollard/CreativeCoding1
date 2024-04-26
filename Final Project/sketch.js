@@ -12,7 +12,9 @@ function setup() {
 
 function draw() {
   background(255);
-  image(GeneMap, 0, 0, width, height); // Adjust if you need to scale the image
+  imageMode(CENTER);
+  image(GeneMap, windowWidth / 2, windowHeight / 2);
+
 
   // Optional: Highlight area on hover
   // checkIfMouseIsOverClickableArea();
