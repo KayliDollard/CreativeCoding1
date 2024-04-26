@@ -5,7 +5,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(1000, 1000);
+  createCanvas(windowWidth, windowHeight);
   // Define clickable areas here
   // Example: { x1: 100, y1: 150, x2: 200, y2: 250, info: 'Room 1' }
 }
