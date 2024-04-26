@@ -13,7 +13,7 @@ function setup() {
 function draw() {
   background(255);
   imageMode(CENTER);
-  image(GeneMap, windowWidth / 2, windowHeight / 2);
+  image(GeneMap, width, height);
 
 
   // Optional: Highlight area on hover
