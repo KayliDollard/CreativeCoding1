@@ -5,7 +5,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(500, 500);
   // Define clickable areas here
   // Example: { x1: 100, y1: 150, x2: 200, y2: 250, info: 'Room 1' }
 }
@@ -13,7 +13,7 @@ function setup() {
 function draw() {
   background(255);
   imageMode(CENTER);
-  image(GeneMap, width, height);
+  image(GeneMap, 500, 500);
 
 
   // Optional: Highlight area on hover
