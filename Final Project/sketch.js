@@ -29,7 +29,6 @@ function draw() {
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
   //perimiter
-  center()
   noFill();
   push()
   strokeWeight(4);
@@ -39,7 +38,6 @@ function draw() {
 
 
   //garbage
-  center()
   noFill();
   push()
   strokeWeight(4);
