@@ -11,8 +11,6 @@ function setup() {
 function draw() {
   background(20);
   textSize(20);
-
-  strokeWeight(1)
   stroke(192, 57, 43)
   text("X: " + mouseX,100,200 );
   text("Y: " + mouseY,100,220 );
