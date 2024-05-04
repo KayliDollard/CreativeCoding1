@@ -33,7 +33,7 @@ function draw() {
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(773, 380, 677);
+  circle(763, 370, 700);
 
   //garbage
   noFill();
@@ -41,6 +41,16 @@ function draw() {
   strokeWeight(4);
   stroke(192, 57, 43);
   circle(773, 380, 577);
+
+  //the den
+
+  //old town
+
+  //reds
+
+  //the pit
+
+  //subs
 
 
   // checkIfMouseIsOverClickableArea();
