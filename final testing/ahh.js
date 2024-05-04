@@ -1,67 +1,63 @@
-let GeneMap;
-
-function preload() {
-  GeneMap = loadImage('mapforGE.png'); // Make sure to use the correct path to your image file
-}
+let pieSlices = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+
+  // Creating pie slices
+  pieSlices.push(new PieSlice(765, 359, 550, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
+  pieSlices.push(new PieSlice(765, 359, 550, radians(72), radians(144), color(0, 255, 0), "The Den"));
+  pieSlices.push(new PieSlice(765, 359, 550, radians(144), radians(216), color(0, 0, 255), "The Pit"));
+  pieSlices.push(new PieSlice(765, 359, 550, radians(216), radians(288), color(255, 255, 0), "Old Town"));
+  pieSlices.push(new PieSlice(765, 359, 550, radians(288), radians(360), color(255, 0, 255), "Suburbs"));
 }
+
 function draw() {
-  background(20);
+  background(0);
   textSize(20);
-  strokeWeight(1);
-  stroke(192, 57, 43);
+
+  strokeWeight(1)
+  stroke(192, 57, 43)
   text("X: " + mouseX, 100, 200);
   text("Y: " + mouseY, 100, 220);
-  
-  let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
-  let scaledWidth = GeneMap.width * scaleFactor;
-  let scaledHeight = GeneMap.height * scaleFactor;
-  let posX = width / 2;
-  let posY = height / 2;
-  
-  imageMode(CENTER);
-  image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
-  // Parameters for the outer circle
-  let outerCirclePosX = posX - (scaledWidth / 2); // Left edge of the scaled image
-  let outerCirclePosY = posY - (scaledHeight / 2); // Top edge of the scaled image
-  let outerCircleRadius = 700 * scaleFactor; // Scale the radius based on the scaleFactor
+  // Display and check mouse over for each pie slice
+  for (let slice of pieSlices) {
+    slice.display();
+    slice.checkMouseOver();
+  }
+}
 
-  // Draw the outer circle
-  noFill();
-  strokeWeight(4);
-  stroke(192, 57, 43);
-  circle(outerCirclePosX, outerCirclePosY, outerCircleRadius);
-
-  // Parameters for the inner circle
-  let innerCirclePosX = posX; // Center X of canvas
-  let innerCirclePosY = posY; // Center Y of canvas
-  let innerCircleRadius = 500 * scaleFactor; // Scale the radius based on the scaleFactor
-
-  // Draw the inner circle
-  circle(innerCirclePosX, innerCirclePosY, innerCircleRadius);
-
-  // Divide the inner circle into 5 sectors
-  let sectorAngle = TWO_PI / 5; // Angle for each sector
-  for (let i = 0; i < 5; i++) {
-    let startAngle = i * sectorAngle - HALF_PI; // Adjust starting angle to align with the top
-    let endAngle = (i + 1) * sectorAngle - HALF_PI; // Adjust ending angle to align with the top
-    arc(innerCirclePosX, innerCirclePosY, innerCircleRadius * 2, innerCircleRadius * 2, startAngle, endAngle);
+// PieSlice class definition
+class PieSlice {
+  constructor(x, y, diameter, startAngle, endAngle, fillColor, name) {
+    this.x = x;
+    this.y = y;
+    this.diameter = diameter;
+    this.startAngle = startAngle;
+    this.endAngle = endAngle;
+    this.fillColor = fillColor;
+    this.name = name;
   }
 
-  // Check if the mouse is over the outer circle
-  let distanceToOuterCircle = dist(mouseX, mouseY, outerCirclePosX, outerCirclePosY);
-  if (distanceToOuterCircle < outerCircleRadius / 2) {
-    // Mouse is over the outer circle
-    // Add your logic here for the outer circle interaction
+  // Display method
+  display() {
+    fill(this.fillColor);
+    arc(this.x, this.y, this.diameter, this.diameter, this.startAngle, this.endAngle, PIE);
   }
 
-  // Check if the mouse is over the inner circle
-  let distanceToInnerCircle = dist(mouseX, mouseY, innerCirclePosX, innerCirclePosY);
-  if (distanceToInnerCircle < innerCircleRadius / 2) {
-    // Mouse is over the inner circle
-    // Add your logic here for the inner circle interaction
+  // Check mouse over method
+  checkMouseOver() {
+    if (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+      // If mouse is over, display slice name
+      fill(255);
+      textSize(20);
+      textAlign(CENTER, CENTER);
+      // Calculate midpoint angle
+      let midAngle = (this.startAngle + this.endAngle) / 2;
+      // Calculate midpoint coordinates
+      let midX = this.x + (this.diameter / 2) * cos(midAngle);
+      let midY = this.y + (this.diameter / 2) * sin(midAngle);
+      text(this.name, midX, midY);
+    }
   }
 }
