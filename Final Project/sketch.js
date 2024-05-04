@@ -26,6 +26,10 @@ function draw() {
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
   //perimiter
+  noFill();
+  strokeWeight(4);
+  stroke(20);
+  circle(762, 351, 14);
 
   // checkIfMouseIsOverClickableArea();
 }
