@@ -13,6 +13,9 @@ function setup() {
 
 function draw() {
   background(20);
+  textSize(20);
+  text("X: " + mouseX,100,200 );
+  text("Y: " + mouseY,100,220 );
   
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
   
