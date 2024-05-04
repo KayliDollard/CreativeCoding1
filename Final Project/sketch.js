@@ -35,8 +35,6 @@ function draw() {
   stroke(192, 57, 43);
   circle(763, 370, 700);
 
-
-
   //garbage
   noFill();
   push()
