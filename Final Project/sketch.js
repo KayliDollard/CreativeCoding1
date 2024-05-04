@@ -9,6 +9,9 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Define clickable areas here
   // Example: { x1: 100, y1: 150, x2: 200, y2: 250, info: 'Room 1' }
+  nofill();
+  strokeWeight(4);
+  circle(762, 351, 7);
 }
 
 function draw() {
