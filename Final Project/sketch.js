@@ -40,6 +40,8 @@ function draw() {
   } else {
     noStroke() // Regular stroke color
   }
+  if (dist(mouseX, mouseY, 765, 359) < 550 / 2) {
+    noStroke()}
   circle(764, 359, 617);
   
   // Circle 2 (Inner Circle)
