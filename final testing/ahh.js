@@ -1,3 +1,12 @@
+let GeneMap;
+
+function preload() {
+  GeneMap = loadImage('mapforGE.png'); // Make sure to use the correct path to your image file
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+}
 function draw() {
   background(20);
   textSize(20);
@@ -27,12 +36,20 @@ function draw() {
   circle(outerCirclePosX, outerCirclePosY, outerCircleRadius);
 
   // Parameters for the inner circle
-  let innerCirclePosX = posX + (scaledWidth / 4); // Adjust X position as needed
-  let innerCirclePosY = posY + (scaledHeight / 4); // Adjust Y position as needed
+  let innerCirclePosX = posX; // Center X of canvas
+  let innerCirclePosY = posY; // Center Y of canvas
   let innerCircleRadius = 500 * scaleFactor; // Scale the radius based on the scaleFactor
 
   // Draw the inner circle
   circle(innerCirclePosX, innerCirclePosY, innerCircleRadius);
+
+  // Divide the inner circle into 5 sectors
+  let sectorAngle = TWO_PI / 5; // Angle for each sector
+  for (let i = 0; i < 5; i++) {
+    let startAngle = i * sectorAngle - HALF_PI; // Adjust starting angle to align with the top
+    let endAngle = (i + 1) * sectorAngle - HALF_PI; // Adjust ending angle to align with the top
+    arc(innerCirclePosX, innerCirclePosY, innerCircleRadius * 2, innerCircleRadius * 2, startAngle, endAngle);
+  }
 
   // Check if the mouse is over the outer circle
   let distanceToOuterCircle = dist(mouseX, mouseY, outerCirclePosX, outerCirclePosY);
