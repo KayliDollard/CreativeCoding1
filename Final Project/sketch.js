@@ -30,17 +30,17 @@ function draw() {
 
   // Circle 1 (Outer Circle with regular stroke color)
   noFill();
-  strokeWeight(69);
+  strokeWeight(68);
   noStroke(); // Regular stroke color
-  circle(764, 359, 619);
+  circle(764, 359, 617);
   
   // Circle 1 (Outer Circle with different stroke color)
-  if (dist(mouseX, mouseY, 764, 359) < 619 / 2) {
+  if (dist(mouseX, mouseY, 764, 359) < 617 / 2) {
     stroke(255, 204, 0); // Change stroke color to yellow when mouse is over
   } else {
     noStroke() // Regular stroke color
   }
-  circle(764, 359, 619);
+  circle(764, 359, 617);
   
   // Circle 2 (Inner Circle)
   if (dist(mouseX, mouseY, 765, 359) < 550 / 2) {
