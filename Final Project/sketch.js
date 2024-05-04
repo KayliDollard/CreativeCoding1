@@ -33,7 +33,7 @@ function draw() {
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(765, 359, 677);
+  circle(765, 359, 680);
 
   //garbage
   noFill();
