@@ -27,6 +27,7 @@ function draw() {
 
   //perimiter
   noFill();
+  push()
   strokeWeight(4);
   stroke(20);
   circle(762, 351, 200);
