@@ -29,7 +29,7 @@ function draw() {
   noFill();
   push()
   strokeWeight(4);
-  stroke(20);
+  stroke(255);
   circle(762, 351, 200);
 
   // checkIfMouseIsOverClickableArea();
