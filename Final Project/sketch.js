@@ -28,25 +28,29 @@ function draw() {
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
-  // Circle 1 (Outer Circle)
+  // Circle 1 (Outer Circle with regular stroke color)
+  noFill();
+  strokeWeight(137);
+  noStroke(); // Regular stroke color
+  circle(765, 359, 677);
+  
+  // Circle 1 (Outer Circle with different stroke color)
   if (dist(mouseX, mouseY, 764, 359) < 680 / 2) {
-    fill(255, 204, 0); // Change fill color to yellow when mouse is over
+    stroke(255, 204, 0); // Change stroke color to yellow when mouse is over
   } else {
-    noFill(); // No fill if mouse is not over
+    noStroke() // Regular stroke color
   }
-  strokeWeight(4);
-  stroke(192, 57, 43);
   circle(764, 359, 680);
   
   // Circle 2 (Inner Circle)
-  if (dist(mouseX, mouseY, 765, 359) >= 677 / 2 && dist(mouseX, mouseY, 765, 359) < 500 / 2) {
+  if (dist(mouseX, mouseY, 765, 359) < 550 / 2) {
     fill(0, 102, 255); // Fill with blue when mouse is over inner circle
-    ellipseMode(CENTER);
-    noStroke();
-    erase(); // Erase background in the area of the inner circle
-    ellipse(765, 359, 550, 550);
-    noErase(); // Stop erasing
+  } else {
+    noFill(); // No fill if mouse is not over inner circle
   }
+  strokeWeight(4);
+  stroke(192, 57, 43);
+  circle(765, 359, 550);
 
   //the den
 
