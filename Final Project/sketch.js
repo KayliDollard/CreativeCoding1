@@ -33,14 +33,14 @@ function draw() {
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(763, 370, 700);
+  circle(763, 370, 600);
 
   //garbage
   noFill();
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(773, 380, 577);
+  circle(773, 380, 500);
 
   //the den
 
