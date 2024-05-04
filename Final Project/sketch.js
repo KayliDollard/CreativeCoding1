@@ -33,7 +33,7 @@ function draw() {
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(755, 351, 700);
+  circle(755, 369, 700);
 
 
   // checkIfMouseIsOverClickableArea();
