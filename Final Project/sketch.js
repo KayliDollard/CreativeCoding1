@@ -9,10 +9,6 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   // Define clickable areas here
   // Example: { x1: 100, y1: 150, x2: 200, y2: 250, info: 'Room 1' }
-  noFill();
-  strokeWeight(4);
-  stroke(20)
-  circle(762, 351, 7);
 }
 
 function draw() {
@@ -31,6 +27,12 @@ function draw() {
   
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
+
+  //perimiter
+  noFill();
+  strokeWeight(4);
+  stroke(20)
+  circle(762, 351, 7);
 
   // Optional: Highlight area on hover
   // checkIfMouseIsOverClickableArea();
