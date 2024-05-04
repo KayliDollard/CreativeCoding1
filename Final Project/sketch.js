@@ -11,6 +11,7 @@ function setup() {
 function draw() {
   background(20);
   textSize(20);
+  stroke(20)
   text("X: " + mouseX,100,200 );
   text("Y: " + mouseY,100,220 );
   
@@ -30,7 +31,7 @@ function draw() {
   push()
   strokeWeight(4);
   stroke(255);
-  circle(762, 351, 200);
+  circle(758, 351, 1000);
 
   // checkIfMouseIsOverClickableArea();
 }
