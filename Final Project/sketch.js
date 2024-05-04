@@ -5,10 +5,7 @@ function preload() {
 }
 
 function setup() {
-  // Set canvas size to match the image dimensions
   createCanvas(windowWidth, windowHeight);
-  // Define clickable areas here
-  // Example: { x1: 100, y1: 150, x2: 200, y2: 250, info: 'Room 1' }
 }
 
 function draw() {
@@ -30,6 +27,5 @@ function draw() {
 
   //perimiter
 
-  // Optional: Highlight area on hover
   // checkIfMouseIsOverClickableArea();
 }
