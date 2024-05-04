@@ -28,15 +28,12 @@ function draw() {
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
-  let circlePosX = posX - (scaledWidth / 2); // Left edge of the scaled image
-  let circlePosY = posY - (scaledHeight / 2); // Top edge of the scaled image
-  let circleRadius = 700 * scaleFactor; // Scale the radius based on the scaleFactor
-
-  // Draw the circle
+  //perimiter
   noFill();
+  push()
   strokeWeight(4);
   stroke(192, 57, 43);
-  circle(circlePosX, circlePosY, circleRadius);
+  circle(755, 351, 700);
 
 
   // checkIfMouseIsOverClickableArea();
