@@ -75,7 +75,7 @@ class PieSlice {
       this.displayText = true;
     } else {
       // If mouse is not over, revert to black color and hide name text
-      this.fillColor = color(0);
+      this.fillColor = noFill();
       this.displayText = false;
     }
   }
