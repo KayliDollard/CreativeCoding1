@@ -29,13 +29,17 @@ function draw() {
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
   //perimiter
+  center()
   noFill();
   push()
   strokeWeight(4);
   stroke(192, 57, 43);
   circle(763, 370, 700);
 
+
+
   //garbage
+  center()
   noFill();
   push()
   strokeWeight(4);
