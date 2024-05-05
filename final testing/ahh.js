@@ -54,13 +54,14 @@ class PieSlice {
     this.originalColor = fillColor; // Store the original color
     this.name = name;
     this.displayText = false; // Initially, the name text is not displayed
+    this.mouseIsOver = false; // Initially, mouse is not over the slice
   }
 
   // Display method
   display() {
     fill(this.fillColor);
     arc(this.x, this.y, this.diameter, this.diameter, this.startAngle, this.endAngle, PIE);
-    if (this.displayText) {
+    if (this.displayText && this.mouseIsOver) {
       fill(255);
       textAlign(CENTER, CENTER);
       text(this.name, this.x + this.diameter / 4 * cos((this.startAngle + this.endAngle) / 2), this.y + this.diameter / 4 * sin((this.startAngle + this.endAngle) / 2));
@@ -68,15 +69,15 @@ class PieSlice {
   }
 
   // Check mouse over method
-checkMouseOver() {
-  if (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over, display name text
-    this.fillColor = this.originalColor; // Change color to original when mouse is over
-    this.displayText = true;
-  } else {
-    // If mouse is not over, revert to transparent fill color and hide name text
-    this.fillColor = color(0, 0, 0, 0); // Set color to transparent
-    this.displayText = false;
-  }
+  checkMouseOver() {
+    if (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+      // If mouse is over, display name text
+      this.fillColor = this.originalColor; // Change color to original when mouse is over
+      this.mouseIsOver = true; // Set mouseIsOver to true
+    } else {
+      // If mouse is not over, revert to transparent fill color and hide name text
+      this.fillColor = color(0, 0, 0, 0); // Set color to transparent
+      this.mouseIsOver = false; // Set mouseIsOver to false
+    }
   }
 }
