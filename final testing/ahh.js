@@ -1,18 +1,35 @@
 let GeneMap;
 let pieSlices = [];
+let innerCircleRadius = 550; // Radius of the inner circle
 
 function preload() {
-  GeneMap = loadImage('mapforGE.png');}
+  GeneMap = loadImage('mapforGE.png');
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Creating pie slices
-  pieSlices.push(new PieSlice(765, 359, 550, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
-  pieSlices.push(new PieSlice(765, 359, 550, radians(72), radians(144), color(0, 255, 0), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, 550, radians(144), radians(216), color(0, 0, 255), "Old Town"));
-  pieSlices.push(new PieSlice(765, 359, 550, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, 550, radians(288), radians(360), color(255, 0, 255), "The Pit"));
+  // Create pie slices
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color(0, 255, 0), "The Den"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color(0, 0, 255), "Old Town"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
+
+  // Draw line around the outside of the inner circle
+  let numOfPoints = 360; // Number of points to draw the line
+  let angleIncrement = TWO_PI / numOfPoints;
+  let centerX = 765;
+  let centerY = 359;
+
+  stroke(255); // Set line color to white
+  for (let i = 0; i < numOfPoints; i++) {
+    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
+    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
+    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
+    line(x1, y1, x2, y2);
+  }
 }
 
 function draw() {
@@ -69,21 +86,21 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-checkMouseOver() {
-  if (this.isMouseOver()) {
-    // If mouse is over the current slice, change color and display text
-    this.fillColor = this.originalColor;
-    this.displayText = true;
-  } else {
-    // If mouse is not over the current slice, revert color and hide text
-    this.fillColor = color(0, 0, 0, 0);
-    this.displayText = false;
+  checkMouseOver() {
+    if (this.isMouseOver()) {
+      // If mouse is over the current slice, change color and display text
+      this.fillColor = this.originalColor;
+      this.displayText = true;
+    } else {
+      // If mouse is not over the current slice, revert color and hide text
+      this.fillColor = color(0, 0, 0, 0);
+      this.displayText = false;
+    }
+  }
+
+  // Function to check if mouse is over the current slice
+  isMouseOver() {
+    return (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2);
   }
 }
 
-// Function to check if mouse is over the current slice
-isMouseOver() {
-  return (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2);
-}
-
-}
