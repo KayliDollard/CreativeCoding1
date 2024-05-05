@@ -21,6 +21,13 @@ function draw() {
   background(0);
   textSize(20);
 
+  // Draw the border circle
+  noFill();
+  stroke(255); // White color for the border
+  strokeWeight(10); // Increase the stroke weight for a thicker border
+  ellipse(width / 2, height / 2, innerCircleRadius * 2); // Draw the outer circle
+  
+  // Display mouse coordinates
   strokeWeight(1);
   stroke(192, 57, 43);
   text("X: " + mouseX, 100, 200);
