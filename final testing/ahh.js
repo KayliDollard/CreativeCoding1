@@ -1,6 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
+let borderStrokeWeight = 20; // Thickness of the border circle
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -24,8 +25,8 @@ function draw() {
   // Draw the border circle
   noFill();
   stroke(255); // White color for the border
-  strokeWeight(10); // Increase the stroke weight for a thicker border
-  ellipse(width / 2, height / 2, innerCircleRadius * 2); // Draw the outer circle
+  strokeWeight(borderStrokeWeight); // Increase the stroke weight for a thicker border
+  ellipse(width / 2, height / 2, innerCircleRadius * 2 - borderStrokeWeight); // Draw the outer circle with adjusted radius
   
   // Display mouse coordinates
   strokeWeight(1);
