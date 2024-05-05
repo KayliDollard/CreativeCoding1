@@ -1,6 +1,8 @@
 let GeneMap;
 let pieSlices = [];
+let outerBorder;
 let innerCircleRadius = 550; // Radius of the inner circle
+let outerBorderWidth = 49; // Width of the outer border
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -16,6 +18,9 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
 
+  // Create outer border
+  outerBorder = new OuterBorder(765, 359, innerCircleRadius + outerBorderWidth / 2, innerCircleRadius + outerBorderWidth / 2 + outerBorderWidth, color(255));
+
   // Draw line around the outside of the inner circle
   let numOfPoints = 360; // Number of points to draw the line
   let angleIncrement = TWO_PI / numOfPoints;
@@ -26,8 +31,8 @@ function setup() {
   for (let i = 0; i < numOfPoints; i++) {
     let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
     let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
+    let x2 = centerX + (innerCircleRadius + outerBorderWidth) * cos(angleIncrement * i); // Outer border
+    let y2 = centerY + (innerCircleRadius + outerBorderWidth) * sin(angleIncrement * i); // Outer border
     line(x1, y1, x2, y2);
   }
 }
@@ -51,6 +56,10 @@ function draw() {
   
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
+
+  // Display and check mouse over for outer border
+  outerBorder.display();
+  outerBorder.checkMouseOver();
 
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
@@ -86,21 +95,52 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-checkMouseOver() {
-  let angle = atan2(mouseY - this.y, mouseX - this.x);
-  if (angle < 0) {
-    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
-  }
-  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over the current slice, change color and display text
-    this.fillColor = this.originalColor;
-    this.displayText = true;
-  } else {
-    // If mouse is not over the current slice, revert color and hide text
-    this.fillColor = color(0, 0, 0, 0);
-    this.displayText = false;
+  checkMouseOver() {
+    let angle = atan2(mouseY - this.y, mouseX - this.x);
+    if (angle < 0) {
+      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+    }
+    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+      // If mouse is over the current slice, change color and display text
+      this.fillColor = this.originalColor;
+      this.displayText = true;
+    } else {
+      // If mouse is not over the current slice, revert color and hide text
+      this.fillColor = color(0, 0, 0, 0);
+      this.displayText = false;
+    }
   }
 }
+
+// OuterBorder class definition
+class OuterBorder {
+  constructor(x, y, innerRadius, outerRadius, fillColor) {
+    this.x = x;
+    this.y = y;
+    this.innerRadius = innerRadius;
+    this.outerRadius = outerRadius;
+    this.fillColor = fillColor;
+    this.originalColor = fillColor; // Store the original color
+    this.mouseIsOver = false; // Initially, mouse is not over the border
+  }
+
+  // Display method
+  display() {
+    fill(this.fillColor);
+    noStroke();
+    ellipse(this.x, this.y, this.outerRadius * 2, this.outerRadius * 2);
+  }
+
+  // Check if mouse is over the outer border
+  checkMouseOver() {
+    if (dist(mouseX, mouseY, this.x, this.y) > this.innerRadius && dist(mouseX, mouseY, this.x, this.y) < this.outerRadius) {
+      // If mouse is over the outer border, change color
+      this.fillColor = color(255, 0, 0); // Change to red when mouse is over
+    } else {
+      // If mouse is not over the outer border, revert color
+      this.fillColor = this.originalColor;
+    }
+  }
 }
 
 
