@@ -9,12 +9,12 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Create pie slices
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color(0, 255, 0), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color(0, 0, 255), "Old Town"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
+  // Create pie slices with updated colors
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('#8B0000'), "Dr. Reds")); // Darker blood red (firebrick)
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('#FF7F50'), "The Den")); // Coral color
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); // Color of the sun
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('#000080'), "The Pit")); // Deep dark navy blue
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('#FFDAB9'), "Suburbs")); // Light peach
 }
 
 function draw() {
