@@ -1,9 +1,6 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let garbageInnerRadius = innerCircleRadius + 30; // Inner radius of the garbage donut
-let garbageOuterRadius = innerCircleRadius + 40; // Outer radius of the garbage donut
-let garbage;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -18,27 +15,27 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color(0, 0, 255), "Old Town"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
-
-  // Create garbage section as a donut shape
-  garbage = new Garbage(765, 359, garbageInnerRadius, garbageOuterRadius, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
 }
 
 function draw() {
-  clear(); // Clear the canvas to make the background transparent
+  background(0);
+  textSize(20);
+
+  strokeWeight(1);
+  stroke(192, 57, 43);
+  text("X: " + mouseX, 100, 200);
+  text("Y: " + mouseY, 100, 220);
 
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
+  
   let scaledWidth = GeneMap.width * scaleFactor;
   let scaledHeight = GeneMap.height * scaleFactor;
+  
   let posX = width / 2;
   let posY = height / 2;
-
-  // Draw the image in the background
+  
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
-
-  // Display and check mouse over for garbage section
-  garbage.display();
-  garbage.checkMouseOver();
 
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
@@ -91,43 +88,6 @@ class PieSlice {
   }
 }
 
-// Garbage class definition
-class Garbage {
-  constructor(x, y, innerRadius, outerRadius, startAngle, endAngle, fillColor) {
-    this.x = x;
-    this.y = y;
-    this.innerRadius = innerRadius;
-    this.outerRadius = outerRadius;
-    this.startAngle = startAngle;
-    this.endAngle = endAngle;
-    this.fillColor = fillColor;
-    this.originalColor = fillColor; // Store the original color
-    this.mouseIsOver = false; // Initially, mouse is not over the garbage section
-  }
-
-  // Display method
-  display() {
-    fill(this.fillColor);
-    noStroke();
-    // Draw outer circle
-    arc(this.x, this.y, this.outerRadius * 2, this.outerRadius * 2, this.startAngle, this.endAngle, PIE);
-    // Draw inner circle
-    fill(0); // Set color to black for inner circle
-    arc(this.x, this.y, this.innerRadius * 2, this.innerRadius * 2, this.startAngle, this.endAngle, PIE);
-  }
-
-  // Check if mouse is over the garbage section
-  checkMouseOver() {
-    let d = dist(mouseX, mouseY, this.x, this.y);
-    if (d > this.innerRadius && d < this.outerRadius) {
-      // If mouse is over the garbage section, change color
-      this.fillColor = color(255, 0, 0); // Change to red when mouse is over
-    } else {
-      // If mouse is not over the garbage section, revert color
-      this.fillColor = this.originalColor;
-    }
-  }
-}
 
 
 
