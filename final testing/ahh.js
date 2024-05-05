@@ -1,5 +1,6 @@
 let GeneMap;
 let pieSlices = [];
+let borderSize = 49; // Width of the border
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -36,6 +37,12 @@ function draw() {
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
+  // Draw border
+  noFill();
+  stroke(255);
+  strokeWeight(borderSize);
+  ellipse(posX, posY, innerCircleRadius * 2 + borderSize * 2);
+
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
     slice.display();
@@ -69,22 +76,23 @@ class PieSlice {
     }
   }
 
-  /// Check if mouse is over the current slice
-checkMouseOver() {
-  let angle = atan2(mouseY - this.y, mouseX - this.x);
-  if (angle < 0) {
-    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+  // Check if mouse is over the current slice
+  checkMouseOver() {
+    if (this.isMouseOver()) {
+      // If mouse is over the current slice, change color and display text
+      this.fillColor = this.originalColor;
+      this.displayText = true;
+    } else {
+      // If mouse is not over the current slice, revert color and hide text
+      this.fillColor = color(0, 0, 0, 0);
+      this.displayText = false;
+    }
   }
-  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over the current slice, change color and display text
-    this.fillColor = this.originalColor;
-    this.displayText = true;
-  } else {
-    // If mouse is not over the current slice, revert color and hide text
-    this.fillColor = color(0, 0, 0, 0);
-    this.displayText = false;
+
+  // Function to check if mouse is over the current slice
+  isMouseOver() {
+    return (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2);
   }
-}
 }
 
 
