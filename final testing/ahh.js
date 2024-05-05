@@ -17,8 +17,8 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
 
-  // Create garbage section
-  garbage = new Garbage(765, 359, innerCircleRadius + 49 / 2, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
+  // Create garbage section with a smaller radius
+  garbage = new Garbage(765, 359, innerCircleRadius + 10, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
 }
 
 function draw() {
@@ -113,7 +113,25 @@ class Garbage {
   display() {
     fill(this.fillColor);
     noStroke();
-    arc(this.x, this.y, this.radius * 2, this.radius * 2, this.startAngle, this.endAngle, PIE);
+    // Draw the garbage section in segments, avoiding areas covered by pie slices
+    let angleStep = QUARTER_PI / 2; // Angle step for drawing segments
+    let angle = this.startAngle;
+    while (angle < this.endAngle) {
+      // Check if the current angle is not covered by any pie slice
+      let sliceCovered = false;
+      for (let slice of pieSlices) {
+        if (angle > slice.startAngle && angle < slice.endAngle) {
+          sliceCovered = true;
+          break;
+        }
+      }
+      // If the angle is not covered by a pie slice, draw the segment
+      if (!sliceCovered) {
+        let endAngleSegment = min(angle + angleStep, this.endAngle);
+        arc(this.x, this.y, this.radius * 2, this.radius * 2, angle, endAngleSegment, PIE);
+      }
+      angle += angleStep;
+    }
   }
 
   // Check if mouse is over the garbage section
@@ -127,6 +145,7 @@ class Garbage {
     }
   }
 }
+
 
 
 
