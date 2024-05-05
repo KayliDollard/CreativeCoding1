@@ -1,6 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
+let garbage;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -9,12 +10,15 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Create pie slices with the specified colors
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('yellow'), "Old Town")); // Sun color
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "The Pit")); // Deep dark navy blue
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "Suburbs")); // Light peach
+  // Create pie slices
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color(0, 255, 0), "The Den"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color(0, 0, 255), "Old Town"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
+
+  // Create garbage section
+  garbage = new Garbage(765, 359, innerCircleRadius + 49 / 2, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
 }
 
 function draw() {
@@ -36,6 +40,10 @@ function draw() {
   
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
+
+  // Display and check mouse over for garbage section
+  garbage.display();
+  garbage.checkMouseOver();
 
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
@@ -87,5 +95,38 @@ class PieSlice {
     }
   }
 }
+
+// Garbage class definition
+class Garbage {
+  constructor(x, y, radius, startAngle, endAngle, fillColor) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.startAngle = startAngle;
+    this.endAngle = endAngle;
+    this.fillColor = fillColor;
+    this.originalColor = fillColor; // Store the original color
+    this.mouseIsOver = false; // Initially, mouse is not over the garbage section
+  }
+
+  // Display method
+  display() {
+    fill(this.fillColor);
+    noStroke();
+    arc(this.x, this.y, this.radius * 2, this.radius * 2, this.startAngle, this.endAngle, PIE);
+  }
+
+  // Check if mouse is over the garbage section
+  checkMouseOver() {
+    if (dist(mouseX, mouseY, this.x, this.y) < this.radius) {
+      // If mouse is over the garbage section, change color
+      this.fillColor = color(255, 0, 0); // Change to red when mouse is over
+    } else {
+      // If mouse is not over the garbage section, revert color
+      this.fillColor = this.originalColor;
+    }
+  }
+}
+
 
 
