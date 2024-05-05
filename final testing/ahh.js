@@ -1,7 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let borderCircleRadius = 350; // Radius of the border circle
+let borderCircleRadius = 650; // Radius of the border circle
 let borderStrokeWeight = 20; // Thickness of the border circle
 
 function preload() {
