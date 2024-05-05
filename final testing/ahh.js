@@ -61,7 +61,7 @@ class PieSlice {
   display() {
     fill(this.fillColor);
     arc(this.x, this.y, this.diameter, this.diameter, this.startAngle, this.endAngle, PIE);
-    if (this.displayText && this.mouseIsOver) {
+    if (this.displayText) {
       fill(255);
       textAlign(CENTER, CENTER);
       text(this.name, this.x + this.diameter / 4 * cos((this.startAngle + this.endAngle) / 2), this.y + this.diameter / 4 * sin((this.startAngle + this.endAngle) / 2));
@@ -74,10 +74,12 @@ class PieSlice {
       // If mouse is over, display name text
       this.fillColor = this.originalColor; // Change color to original when mouse is over
       this.mouseIsOver = true; // Set mouseIsOver to true
+      this.displayText = true; // Set displayText to true
     } else {
       // If mouse is not over, revert to transparent fill color and hide name text
       this.fillColor = color(0, 0, 0, 0); // Set color to transparent
       this.mouseIsOver = false; // Set mouseIsOver to false
+      this.displayText = false; // Set displayText to false
     }
   }
 }
