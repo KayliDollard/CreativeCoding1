@@ -1,7 +1,8 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let outerCircleRadius = innerCircleRadius + 20; // Smaller radius for the outer circle
+let garbageInnerRadius = innerCircleRadius + 30; // Inner radius of the garbage donut
+let garbageOuterRadius = innerCircleRadius + 40; // Outer radius of the garbage donut
 let garbage;
 
 function preload() {
@@ -18,27 +19,20 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
 
-  // Create garbage section as a smaller donut shape
-  garbage = new Garbage(765, 359, innerCircleRadius - 20, outerCircleRadius - 20, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
+  // Create garbage section as a donut shape
+  garbage = new Garbage(765, 359, garbageInnerRadius, garbageOuterRadius, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
 }
 
 function draw() {
-  background(0);
-  textSize(20);
-
-  strokeWeight(1);
-  stroke(192, 57, 43);
-  text("X: " + mouseX, 100, 200);
-  text("Y: " + mouseY, 100, 220);
+  clear(); // Clear the canvas to make the background transparent
 
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
-  
   let scaledWidth = GeneMap.width * scaleFactor;
   let scaledHeight = GeneMap.height * scaleFactor;
-  
   let posX = width / 2;
   let posY = height / 2;
-  
+
+  // Draw the image in the background
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
