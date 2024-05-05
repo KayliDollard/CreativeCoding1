@@ -79,4 +79,4 @@ checkMouseOver() {
     this.displayText = false;
   }
   }
-    }
+}
