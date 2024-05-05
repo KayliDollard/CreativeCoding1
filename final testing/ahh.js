@@ -1,6 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
+let outerCircleRadius = innerCircleRadius + 20; // Smaller radius for the outer circle
 let garbage;
 
 function preload() {
@@ -17,8 +18,8 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
 
-  // Create garbage section with a smaller radius
-  garbage = new Garbage(765, 359, innerCircleRadius + 10, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
+  // Create garbage section as a smaller donut shape
+  garbage = new Garbage(765, 359, innerCircleRadius - 20, outerCircleRadius - 20, radians(0), radians(360), color(255, 255, 255, 0)); // Transparent white initially
 }
 
 function draw() {
@@ -98,10 +99,11 @@ class PieSlice {
 
 // Garbage class definition
 class Garbage {
-  constructor(x, y, radius, startAngle, endAngle, fillColor) {
+  constructor(x, y, innerRadius, outerRadius, startAngle, endAngle, fillColor) {
     this.x = x;
     this.y = y;
-    this.radius = radius;
+    this.innerRadius = innerRadius;
+    this.outerRadius = outerRadius;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
     this.fillColor = fillColor;
@@ -113,30 +115,17 @@ class Garbage {
   display() {
     fill(this.fillColor);
     noStroke();
-    // Draw the garbage section in segments, avoiding areas covered by pie slices
-    let angleStep = QUARTER_PI / 2; // Angle step for drawing segments
-    let angle = this.startAngle;
-    while (angle < this.endAngle) {
-      // Check if the current angle is not covered by any pie slice
-      let sliceCovered = false;
-      for (let slice of pieSlices) {
-        if (angle > slice.startAngle && angle < slice.endAngle) {
-          sliceCovered = true;
-          break;
-        }
-      }
-      // If the angle is not covered by a pie slice, draw the segment
-      if (!sliceCovered) {
-        let endAngleSegment = min(angle + angleStep, this.endAngle);
-        arc(this.x, this.y, this.radius * 2, this.radius * 2, angle, endAngleSegment, PIE);
-      }
-      angle += angleStep;
-    }
+    // Draw outer circle
+    arc(this.x, this.y, this.outerRadius * 2, this.outerRadius * 2, this.startAngle, this.endAngle, PIE);
+    // Draw inner circle
+    fill(0); // Set color to black for inner circle
+    arc(this.x, this.y, this.innerRadius * 2, this.innerRadius * 2, this.startAngle, this.endAngle, PIE);
   }
 
   // Check if mouse is over the garbage section
   checkMouseOver() {
-    if (dist(mouseX, mouseY, this.x, this.y) < this.radius) {
+    let d = dist(mouseX, mouseY, this.x, this.y);
+    if (d > this.innerRadius && d < this.outerRadius) {
       // If mouse is over the garbage section, change color
       this.fillColor = color(255, 0, 0); // Change to red when mouse is over
     } else {
