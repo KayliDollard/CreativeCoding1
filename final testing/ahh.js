@@ -68,18 +68,22 @@ class PieSlice {
     }
   }
 
-  // Check mouse over method
+  // Check if mouse is over the current slice
 checkMouseOver() {
-  if (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over, display name text and change color
-    this.fillColor = this.originalColor; // Change color to original when mouse is over
-    this.displayText = true; // Display name text
-    this.mouseIsOver = true; // Set mouseIsOver to true for this slice
+  if (this.isMouseOver()) {
+    // If mouse is over the current slice, change color and display text
+    this.fillColor = this.originalColor;
+    this.displayText = true;
   } else {
-    // If mouse is not over, revert to transparent fill color and hide name text
-    this.fillColor = color(0, 0, 0, 0); // Set color to transparent
-    this.displayText = false; // Hide name text
-    this.mouseIsOver = false; // Set mouseIsOver to false for this slice
+    // If mouse is not over the current slice, revert color and hide text
+    this.fillColor = color(0, 0, 0, 0);
+    this.displayText = false;
   }
 }
+
+// Function to check if mouse is over the current slice
+isMouseOver() {
+  return (dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2);
+}
+
 }
