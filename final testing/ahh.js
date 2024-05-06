@@ -1,7 +1,7 @@
 let GeneMap;
 let pieSlices = [];
-let piecesOfGarbage = [];
 let innerCircleRadius = 550; // Radius of the inner circle
+let crustLines = []; // Array to hold crust lines
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -10,47 +10,28 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Draw the border ring using the PiecesOfGarbage class
-  let centerX = 765;
-  let centerY = 359;
-  let innerRadius = 520; // Inner radius of the crust
-  let outerRadius = innerCircleRadius + 40; // Outer radius of the border
-  let numOfPoints = 360; // Number of points to draw the ring
-  let angleIncrement = TWO_PI / numOfPoints;
-
-  for (let i = 0; i < numOfPoints; i++) {
-    let angle = angleIncrement * i;
-    let x = centerX + innerRadius * cos(angle);
-    let y = centerY + innerRadius * sin(angle);
-    piecesOfGarbage.push(new PiecesOfGarbage(x, y, 1));
-  }
-
-  for (let i = 0; i < numOfPoints; i++) {
-    let angle = angleIncrement * i;
-    let x = centerX + outerRadius * cos(angle);
-    let y = centerY + outerRadius * sin(angle);
-    piecesOfGarbage.push(new PiecesOfGarbage(x, y, 1));
-  }
-
+  // Create pie slices
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit"));
 
-  // Other setup code...
-
-  // Draw line around the outside of the inner circle
-  let numOfPointsLine = 360; // Number of points to draw the line
-  let angleIncrementLine = TWO_PI / numOfPointsLine;
+  // Draw crust lines
+  let numOfPoints = 360; // Number of points to draw the line
+  let angleIncrement = TWO_PI / numOfPoints;
+  let centerX = 765;
+  let centerY = 359;
 
   stroke(255); // Set line color to white
-  for (let i = 0; i < numOfPointsLine; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrementLine * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrementLine * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrementLine * i); // 20 is the distance from the inner circle
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrementLine * i);
+  for (let i = 0; i < numOfPoints; i++) {
+    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
+    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
+    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
     line(x1, y1, x2, y2);
+    // Store crust lines
+    crustLines.push({ x1, y1, x2, y2 });
   }
 }
 
@@ -64,13 +45,13 @@ function draw() {
   text("Y: " + mouseY, 100, 220);
 
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
-  
+
   let scaledWidth = GeneMap.width * scaleFactor;
   let scaledHeight = GeneMap.height * scaleFactor;
-  
+
   let posX = width / 2;
   let posY = height / 2;
-  
+
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
@@ -80,10 +61,13 @@ function draw() {
     slice.checkMouseOver();
   }
 
-  // Display pieces of garbage
-  for (let garbage of piecesOfGarbage) {
-    garbage.display();
-    garbage.checkMouseOver();
+  // Display and check mouse over for each crust line
+  for (let crust of crustLines) {
+    let { x1, y1, x2, y2 } = crust;
+    line(x1, y1, x2, y2);
+    let crustLine = new Crust(x1, y1, x2, y2);
+    crustLine.display();
+    crustLine.checkMouseOver();
   }
 }
 
@@ -131,42 +115,33 @@ class PieSlice {
   }
 }
 
-// PiecesOfGarbage class definition
-class PiecesOfGarbage {
-  constructor(x, y, radius) {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.fillColor = color(0, 0, 0, 0); // Transparent fill
-    this.strokeColor = color(169); // Initial stroke color
-    this.originalStrokeColor = color(169); // Original stroke color
-    this.mouseIsOver = false; // Initially, mouse is not over the garbage
+// Crust class definition
+class Crust {
+  constructor(x1, y1, x2, y2) {
+    this.x1 = x1;
+    this.y1 = y1;
+    this.x2 = x2;
+    this.y2 = y2;
+    this.fillColor = color(0); // Set initial color to black
   }
 
   // Display method
   display() {
-    fill(this.fillColor);
-    stroke(this.strokeColor); // Set stroke color
-    strokeWeight(2); // Border thickness
-    ellipse(this.x, this.y, this.radius * 2); // Draw the piece of garbage
+    stroke(this.fillColor);
+    line(this.x1, this.y1, this.x2, this.y2);
   }
 
-  // Check if mouse is over the current piece of garbage
+  // Check if mouse is over the current crust line
   checkMouseOver() {
-    if (dist(mouseX, mouseY, this.x, this.y) < this.radius && !this.mouseIsOver) {
-      // If mouse is over the current piece of garbage and it wasn't over before, change color of all garbage pieces
-      for (let garbage of piecesOfGarbage) {
-        garbage.fillColor = color(169);
-        garbage.strokeColor = garbage.originalStrokeColor;
-      }
-      this.mouseIsOver = true;
-    } else if (dist(mouseX, mouseY, this.x, this.y) >= this.radius && this.mouseIsOver) {
-      // If mouse is not over the current piece of garbage and it was over before, revert color of all garbage pieces
-      for (let garbage of piecesOfGarbage) {
-        garbage.fillColor = color(0, 0, 0, 0);
-        garbage.strokeColor = color(0, 0, 0, 0);
-      }
-      this.mouseIsOver = false;
+    if (
+      dist(mouseX, mouseY, this.x1, this.y1) + dist(mouseX, mouseY, this.x2, this.y2) <
+      dist(this.x1, this.y1, this.x2, this.y2) + 2
+    ) {
+      // If mouse is over the current crust line, change color
+      this.fillColor = color(255); // Change color to white
+    } else {
+      // If mouse is not over the current crust line, revert color
+      this.fillColor = color(0); // Revert color to black
     }
   }
 }
