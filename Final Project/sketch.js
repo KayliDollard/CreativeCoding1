@@ -2,6 +2,8 @@ let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550;
 let garbageSectorText;
+let titleText;
+let subTitleText;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -17,14 +19,29 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
   garbageSectorText = createP('Garbage Sector');
-  garbageSectorText.position(705, 19); 
+  garbageSectorText.position(705, 19); // Move up by 20 and to the left by 20 again
   garbageSectorText.style('color', 'black');
   garbageSectorText.style('font-size', '30px');
+
+  titleText = createP('The Genesys Experiments:');
+  titleText.position(20, 20); // Upper left corner of the canvas
+  titleText.style('color', 'white');
+  titleText.style('font-size', '30px');
+
+  subTitleText = createP('Map of the Under City');
+  subTitleText.position(20, 60); // Below the title text
+  subTitleText.style('color', 'white');
+  subTitleText.style('font-size', '20px');
 }
 
 function draw() {
   background(0);
   textSize(20);
+
+  strokeWeight(1);
+  stroke(0);
+  text("X: " + mouseX, 100, 200);
+  text("Y: " + mouseY, 100, 220);
 
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
   
@@ -75,11 +92,11 @@ class PieSlice {
     if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
       this.fillColor = this.originalColor;
       this.displayText = true;
-      garbageSectorText.hide(); 
+      garbageSectorText.hide(); // Hide the text when mouse is over any pie slice
     } else {
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
-      garbageSectorText.show(); 
+      garbageSectorText.show(); // Show the text when mouse is not over any pie slice
     }
   }
 }
