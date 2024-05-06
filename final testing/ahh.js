@@ -138,6 +138,7 @@ class PiecesOfGarbage {
     this.y = y;
     this.radius = radius;
     this.fillColor = color(0, 0, 0, 0); // Transparent fill
+    this.originalColor = color(169); // Original color for the garbage pieces
     this.mouseIsOver = false; // Initially, mouse is not over the garbage
   }
 
