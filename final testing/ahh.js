@@ -1,8 +1,6 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let garbageStartAngle = radians(360); // Start angle of the Garbage sector
-let garbageEndAngle = radians(360); // End angle of the Garbage sector
 let garbageColor = color(150); // Initial color of the Garbage sector
 
 function preload() {
@@ -24,27 +22,33 @@ function draw() {
   background(0);
   textSize(20);
 
-  // Draw the Garbage sector
-  fill(garbageColor);
-  arc(765, 359, innerCircleRadius * 2, innerCircleRadius * 2, garbageStartAngle, garbageEndAngle, PIE);
-
-  // Check if mouse is over the Garbage sector
-  checkGarbageMouseOver();
-
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
     slice.display();
     slice.checkMouseOver();
   }
+
+  // Draw the Garbage sector
+  fill(garbageColor);
+  noStroke();
+  beginShape();
+  vertex(765, 359);
+  for (let i = 0; i < 360; i++) {
+    let angle = radians(i);
+    let x = 765 + (innerCircleRadius + 20) * cos(angle);
+    let y = 359 + (innerCircleRadius + 20) * sin(angle);
+    vertex(x, y);
+  }
+  endShape(CLOSE);
+
+  // Check if mouse is over the Garbage sector
+  checkGarbageMouseOver();
 }
 
 // Check if mouse is over the Garbage sector
 function checkGarbageMouseOver() {
-  let angle = atan2(mouseY - 359, mouseX - 765);
-  if (angle < 0) {
-    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
-  }
-  if (angle > 0 && angle < radians(360) && dist(mouseX, mouseY, 765, 359) < innerCircleRadius) {
+  if (mouseX > 765 - innerCircleRadius - 20 && mouseX < 765 + innerCircleRadius + 20 && 
+      mouseY > 359 - innerCircleRadius - 20 && mouseY < 359 + innerCircleRadius + 20) {
     // If mouse is over the Garbage sector, change color
     garbageColor = color(200); // Change color to grey
   } else {
@@ -65,7 +69,6 @@ class PieSlice {
     this.originalColor = fillColor; // Store the original color
     this.name = name;
     this.displayText = false; // Initially, the name text is not displayed
-    this.mouseIsOver = false; // Initially, mouse is not over the slice
   }
 
   // Display method
@@ -96,7 +99,6 @@ class PieSlice {
     }
   }
 }
-
 
 
 
