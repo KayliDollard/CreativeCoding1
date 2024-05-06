@@ -138,14 +138,15 @@ class PiecesOfGarbage {
     this.y = y;
     this.radius = radius;
     this.fillColor = color(0, 0, 0, 0); // Transparent fill
-    this.originalColor = color(169); // Original color for the garbage pieces
+    this.strokeColor = color(169); // Initial stroke color
+    this.originalStrokeColor = color(169); // Original stroke color
     this.mouseIsOver = false; // Initially, mouse is not over the garbage
   }
 
   // Display method
   display() {
     fill(this.fillColor);
-    stroke(169); // Border color
+    stroke(this.strokeColor); // Set stroke color
     strokeWeight(2); // Border thickness
     ellipse(this.x, this.y, this.radius * 2); // Draw the piece of garbage
   }
@@ -156,12 +157,14 @@ class PiecesOfGarbage {
       // If mouse is over the current piece of garbage and it wasn't over before, change color of all garbage pieces
       for (let garbage of piecesOfGarbage) {
         garbage.fillColor = color(169);
+        garbage.strokeColor = garbage.originalStrokeColor;
       }
       this.mouseIsOver = true;
     } else if (dist(mouseX, mouseY, this.x, this.y) >= this.radius && this.mouseIsOver) {
       // If mouse is not over the current piece of garbage and it was over before, revert color of all garbage pieces
       for (let garbage of piecesOfGarbage) {
         garbage.fillColor = color(0, 0, 0, 0);
+        garbage.strokeColor = color(0, 0, 0, 0);
       }
       this.mouseIsOver = false;
     }
