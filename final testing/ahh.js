@@ -156,11 +156,12 @@ function createPiecesOfGarbage() {
   let centerX = 765;
   let centerY = 359;
 
-  for (let i = 0; i < numOfGarbage; i++) {
-    let angle = TWO_PI / numOfGarbage * i;
-    let x = centerX + (innerCircleRadius + 30) * cos(angle); // 30 is the distance from the inner circle
-    let y = centerY + (innerCircleRadius + 30) * sin(angle); // 30 is the distance from the inner circle
+  for (let slice of pieSlices) {
+    let angle = (slice.startAngle + slice.endAngle) / 2;
+    let x = slice.x + (slice.diameter / 2 + 1) * cos(angle); // +1 to make it 1 pixel away
+    let y = slice.y + (slice.diameter / 2 + 1) * sin(angle); // +1 to make it 1 pixel away
     piecesOfGarbage.push(new PiecesOfGarbage(x, y, radiusIncrement));
   }
 }
+
 
