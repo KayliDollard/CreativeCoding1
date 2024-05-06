@@ -12,13 +12,15 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
 
   // Draw the ring of circles
-  let centerX = 764;
-  let centerY = 355;
+  let centerX = 755; // Adjusted X coordinate for the first circle
+  let centerY = 49; // Adjusted Y coordinate for the first circle
+  let centerRingX = 764; // Center X coordinate for the ring of circles
+  let centerRingY = 355; // Center Y coordinate for the ring of circles
   let angleIncrement = TWO_PI / numCircles; // Angle between each circle
 
   for (let i = 0; i < numCircles; i++) {
-    let x = centerX + 105 * cos(angleIncrement * i); // 105 is the distance from the center of the ring
-    let y = centerY + 306 * sin(angleIncrement * i); // 306 is the distance from the center of the ring
+    let x = centerRingX + 105 * cos(angleIncrement * i); // 105 is the distance from the center of the ring
+    let y = centerRingY + 306 * sin(angleIncrement * i); // 306 is the distance from the center of the ring
     ellipse(x, y, circleRadius * 2, circleRadius * 2);
   }
 
@@ -99,20 +101,20 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-checkMouseOver() {
-  let angle = atan2(mouseY - this.y, mouseX - this.x);
-  if (angle < 0) {
-    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+  checkMouseOver() {
+    let angle = atan2(mouseY - this.y, mouseX - this.x);
+    if (angle < 0) {
+      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+    }
+    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+      // If mouse is over the current slice, change color and display text
+      this.fillColor = this.originalColor;
+      this.displayText = true;
+    } else {
+      // If mouse is not over the current slice, revert color and hide text
+      this.fillColor = color(0, 0, 0, 0);
+      this.displayText = false;
+    }
   }
-  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over the current slice, change color and display text
-    this.fillColor = this.originalColor;
-    this.displayText = true;
-  } else {
-    // If mouse is not over the current slice, revert color and hide text
-    this.fillColor = color(0, 0, 0, 0);
-    this.displayText = false;
-  }
-}
 }
 
