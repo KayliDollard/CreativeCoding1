@@ -1,8 +1,6 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let borderCircleRadius = 600; // Radius of the border circle
-let borderStrokeWeight = 20; // Thickness of the border circle
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -11,25 +9,32 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Create pie slices with updated colors
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('#8B0000'), "Dr. Reds")); // Darker blood red (firebrick)
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('#FF7F50'), "The Den")); // Coral color
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); // Color of the sun
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('#000080'), "The Pit")); // Deep dark navy blue
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('#FFDAB9'), "Suburbs")); // Light peach
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
+
+  // Draw line around the outside of the inner circle
+  let numOfPoints = 360; // Number of points to draw the line
+  let angleIncrement = TWO_PI / numOfPoints;
+  let centerX = 765;
+  let centerY = 359;
+
+  stroke(255); // Set line color to white
+  for (let i = 0; i < numOfPoints; i++) {
+    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
+    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
+    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
+    line(x1, y1, x2, y2);
+  }
 }
 
 function draw() {
   background(0);
   textSize(20);
 
-  // Draw the border circle
-  noFill();
-  stroke(255); // White color for the border
-  strokeWeight(borderStrokeWeight); // Increase the stroke weight for a thicker border
-  ellipse(width / 2, height / 2, borderCircleRadius * 2); // Draw the outer circle with adjusted radius
-  
-  // Display mouse coordinates
   strokeWeight(1);
   stroke(192, 57, 43);
   text("X: " + mouseX, 100, 200);
@@ -80,23 +85,22 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-  checkMouseOver() {
-    let angle = atan2(mouseY - this.y, mouseX - this.x);
-    if (angle < 0) {
-      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
-    }
-    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-      // If mouse is over the current slice, change color and display text
-      this.fillColor = this.originalColor;
-      this.displayText = true;
-    } else {
-      // If mouse is not over the current slice, revert color and hide text
-      this.fillColor = color(0, 0, 0, 0);
-      this.displayText = false;
-    }
+checkMouseOver() {
+  let angle = atan2(mouseY - this.y, mouseX - this.x);
+  if (angle < 0) {
+    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+  }
+  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+    // If mouse is over the current slice, change color and display text
+    this.fillColor = this.originalColor;
+    this.displayText = true;
+  } else {
+    // If mouse is not over the current slice, revert color and hide text
+    this.fillColor = color(0, 0, 0, 0);
+    this.displayText = false;
   }
 }
-
+}
 
 
 

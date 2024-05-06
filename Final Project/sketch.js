@@ -9,12 +9,11 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Create pie slices
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color(255, 0, 0), "Dr. Reds"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color(0, 255, 0), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color(0, 0, 255), "Old Town"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color(255, 255, 0), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color(255, 0, 255), "The Pit"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
   // Draw line around the outside of the inner circle
   let numOfPoints = 360; // Number of points to draw the line
