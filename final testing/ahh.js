@@ -29,7 +29,6 @@ function setup() {
     let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
     let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
     let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
-    line(x1, y1, x2, y2);
     // Store crust lines
     crustLines.push({ x1, y1, x2, y2 });
   }
@@ -64,10 +63,15 @@ function draw() {
   // Display and check mouse over for each crust line
   for (let crust of crustLines) {
     let { x1, y1, x2, y2 } = crust;
+    stroke(255); // Set line color to white
     line(x1, y1, x2, y2);
-    let crustLine = new Crust(x1, y1, x2, y2);
-    crustLine.display();
-    crustLine.checkMouseOver();
+    if (
+      dist(mouseX, mouseY, x1, y1) + dist(mouseX, mouseY, x2, y2) <
+      dist(x1, y1, x2, y2) + 2
+    ) {
+      // If mouse is over the current crust line, change color
+      stroke(255, 0, 0); // Change color to red
+    }
   }
 }
 
@@ -111,37 +115,6 @@ class PieSlice {
       // If mouse is not over the current slice, revert color and hide text
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
-    }
-  }
-}
-
-// Crust class definition
-class Crust {
-  constructor(x1, y1, x2, y2) {
-    this.x1 = x1;
-    this.y1 = y1;
-    this.x2 = x2;
-    this.y2 = y2;
-    this.fillColor = color(0); // Set initial color to black
-  }
-
-  // Display method
-  display() {
-    stroke(this.fillColor);
-    line(this.x1, this.y1, this.x2, this.y2);
-  }
-
-  // Check if mouse is over the current crust line
-  checkMouseOver() {
-    if (
-      dist(mouseX, mouseY, this.x1, this.y1) + dist(mouseX, mouseY, this.x2, this.y2) <
-      dist(this.x1, this.y1, this.x2, this.y2) + 2
-    ) {
-      // If mouse is over the current crust line, change color
-      this.fillColor = color(255); // Change color to white
-    } else {
-      // If mouse is not over the current crust line, revert color
-      this.fillColor = color(0); // Revert color to black
     }
   }
 }
