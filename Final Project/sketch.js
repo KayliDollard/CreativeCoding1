@@ -38,11 +38,6 @@ function draw() {
   background(0);
   textSize(20);
 
-  strokeWeight(1);
-  stroke(0);
-  text("X: " + mouseX, 100, 200);
-  text("Y: " + mouseY, 100, 220);
-
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
   
   let scaledWidth = GeneMap.width * scaleFactor;
