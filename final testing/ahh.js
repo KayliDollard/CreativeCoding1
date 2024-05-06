@@ -1,7 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let crustLines = []; // Array to hold crust lines
+let crustCircles = []; // Array to hold crust circles
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -17,20 +17,18 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit"));
 
-  // Draw crust lines
-  let numOfPoints = 360; // Number of points to draw the line
-  let angleIncrement = TWO_PI / numOfPoints;
+  // Draw crust circles
+  let numOfCircles = 20; // Number of circles for crust
+  let stepAngle = TWO_PI / numOfCircles;
   let centerX = 765;
   let centerY = 359;
 
+  noFill();
   stroke(255); // Set line color to white
-  for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
-    // Store crust lines
-    crustLines.push({ x1, y1, x2, y2 });
+  for (let i = 0; i < numOfCircles; i++) {
+    let radius = innerCircleRadius + 20 + i * 10; // Increase radius for each circle
+    circle(centerX, centerY, radius * 2);
+    crustCircles.push({ x: centerX, y: centerY, radius });
   }
 }
 
@@ -60,18 +58,17 @@ function draw() {
     slice.checkMouseOver();
   }
 
-  // Display and check mouse over for each crust line
-  for (let crust of crustLines) {
-    let { x1, y1, x2, y2 } = crust;
-    stroke(255); // Set line color to white
-    line(x1, y1, x2, y2);
-    if (
-      dist(mouseX, mouseY, x1, y1) + dist(mouseX, mouseY, x2, y2) <
-      dist(x1, y1, x2, y2) + 2
-    ) {
-      // If mouse is over the current crust line, change color
+  // Display and check mouse over for each crust circle
+  for (let circle of crustCircles) {
+    let { x, y, radius } = circle;
+    if (dist(mouseX, mouseY, x, y) < radius) {
+      // If mouse is over the current crust circle, change color
       stroke(255, 0, 0); // Change color to red
+    } else {
+      stroke(255); // Set line color to white
     }
+    noFill();
+    circle(x, y, radius * 2);
   }
 }
 
@@ -118,3 +115,4 @@ class PieSlice {
     }
   }
 }
+
