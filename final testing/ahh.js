@@ -1,6 +1,9 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
+let garbageStartAngle = radians(360); // Start angle of the Garbage sector
+let garbageEndAngle = radians(360); // End angle of the Garbage sector
+let garbageColor = color(150); // Initial color of the Garbage sector
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -9,52 +12,44 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+  // Create pie slices with updated colors
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); // Color of the sun
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
-
-  // Draw line around the outside of the inner circle
-  let numOfPoints = 360; // Number of points to draw the line
-  let angleIncrement = TWO_PI / numOfPoints;
-  let centerX = 765;
-  let centerY = 359;
-
-  stroke(255); // Set line color to white
-  for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
-    line(x1, y1, x2, y2);
-  }
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); // Deep dark navy blue
 }
 
 function draw() {
   background(0);
   textSize(20);
 
-  strokeWeight(1);
-  stroke(192, 57, 43);
-  text("X: " + mouseX, 100, 200);
-  text("Y: " + mouseY, 100, 220);
+  // Draw the Garbage sector
+  fill(garbageColor);
+  arc(765, 359, innerCircleRadius * 2, innerCircleRadius * 2, garbageStartAngle, garbageEndAngle, PIE);
 
-  let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
-  
-  let scaledWidth = GeneMap.width * scaleFactor;
-  let scaledHeight = GeneMap.height * scaleFactor;
-  
-  let posX = width / 2;
-  let posY = height / 2;
-  
-  imageMode(CENTER);
-  image(GeneMap, posX, posY, scaledWidth, scaledHeight);
+  // Check if mouse is over the Garbage sector
+  checkGarbageMouseOver();
 
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
     slice.display();
     slice.checkMouseOver();
+  }
+}
+
+// Check if mouse is over the Garbage sector
+function checkGarbageMouseOver() {
+  let angle = atan2(mouseY - 359, mouseX - 765);
+  if (angle < 0) {
+    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+  }
+  if (angle > 0 && angle < radians(360) && dist(mouseX, mouseY, 765, 359) < innerCircleRadius) {
+    // If mouse is over the Garbage sector, change color
+    garbageColor = color(200); // Change color to grey
+  } else {
+    // If mouse is not over the Garbage sector, revert color
+    garbageColor = color(150); // Revert color to initial grey
   }
 }
 
@@ -85,21 +80,21 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-checkMouseOver() {
-  let angle = atan2(mouseY - this.y, mouseX - this.x);
-  if (angle < 0) {
-    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+  checkMouseOver() {
+    let angle = atan2(mouseY - this.y, mouseX - this.x);
+    if (angle < 0) {
+      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+    }
+    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+      // If mouse is over the current slice, change color and display text
+      this.fillColor = this.originalColor;
+      this.displayText = true;
+    } else {
+      // If mouse is not over the current slice, revert color and hide text
+      this.fillColor = color(0, 0, 0, 0);
+      this.displayText = false;
+    }
   }
-  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-    // If mouse is over the current slice, change color and display text
-    this.fillColor = this.originalColor;
-    this.displayText = true;
-  } else {
-    // If mouse is not over the current slice, revert color and hide text
-    this.fillColor = color(0, 0, 0, 0);
-    this.displayText = false;
-  }
-}
 }
 
 
