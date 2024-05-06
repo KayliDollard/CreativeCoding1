@@ -17,8 +17,9 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
   garbageSectorText = createP('Garbage Sector');
-  garbageSectorText.position(755, 49);
+  garbageSectorText.position(745, 59);
   garbageSectorText.style('color', 'black');
+  garbageSectorText.style('font-size', '30px');
 }
 
 function draw() {
@@ -76,14 +77,15 @@ class PieSlice {
     if (angle < 0) {
       angle += TWO_PI;
     }
-    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+    if ((this.name === "The Den" || this.name === "Old Town" || this.name === "Dr. Reds" || this.name === "The Pit" || this.name === "Suburbs") && 
+        angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
       this.fillColor = this.originalColor;
       this.displayText = true;
-      garbageSectorText.hide(); // Hide the text when mouse is over a pie slice
+      garbageSectorText.hide(); // Hide the text when mouse is over specific pie slices
     } else {
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
-      garbageSectorText.show(); // Show the text when mouse is not over any pie slice
+      garbageSectorText.show(); // Show the text when mouse is not over any of the specified pie slices
     }
   }
 }
