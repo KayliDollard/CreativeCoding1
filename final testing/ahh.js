@@ -22,33 +22,25 @@ function draw() {
   background(0);
   textSize(20);
 
+  // Draw the Garbage sector
+  fill(garbageColor);
+  noStroke();
+  ellipse(765, 359, innerCircleRadius * 2 + 40, innerCircleRadius * 2 + 40);
+
+  // Check if mouse is over the Garbage sector
+  checkGarbageMouseOver();
+
   // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
     slice.display();
     slice.checkMouseOver();
   }
-
-  // Draw the Garbage sector
-  fill(garbageColor);
-  noStroke();
-  beginShape();
-  vertex(765, 359);
-  for (let i = 0; i < 360; i++) {
-    let angle = radians(i);
-    let x = 765 + (innerCircleRadius + 20) * cos(angle);
-    let y = 359 + (innerCircleRadius + 20) * sin(angle);
-    vertex(x, y);
-  }
-  endShape(CLOSE);
-
-  // Check if mouse is over the Garbage sector
-  checkGarbageMouseOver();
 }
 
 // Check if mouse is over the Garbage sector
 function checkGarbageMouseOver() {
-  if (mouseX > 765 - innerCircleRadius - 20 && mouseX < 765 + innerCircleRadius + 20 && 
-      mouseY > 359 - innerCircleRadius - 20 && mouseY < 359 + innerCircleRadius + 20) {
+  let d = dist(mouseX, mouseY, 765, 359);
+  if (d > innerCircleRadius && d < innerCircleRadius + 20) {
     // If mouse is over the Garbage sector, change color
     garbageColor = color(200); // Change color to grey
   } else {
@@ -99,6 +91,5 @@ class PieSlice {
     }
   }
 }
-
 
 
