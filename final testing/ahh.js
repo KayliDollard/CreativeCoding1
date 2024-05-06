@@ -156,12 +156,12 @@ function createPiecesOfGarbage() {
   let centerX = 765;
   let centerY = 359;
 
+  // Calculate the distance from the center of the ring, just touching the pie slices
+  let distance = innerCircleRadius + 20; // Move the pieces inward just enough to touch the pie slices
+
   for (let i = 0; i < numOfGarbage; i++) {
     // Calculate angle evenly spread across the ring
     let angle = map(i, 0, numOfGarbage, 0, TWO_PI);
-    
-    // Calculate the distance from the center of the ring, slightly smaller than the radius of the pie slices
-    let distance = innerCircleRadius - 20; // Move the pieces inward
     
     // Calculate position based on polar to Cartesian conversion
     let x = centerX + distance * cos(angle);
