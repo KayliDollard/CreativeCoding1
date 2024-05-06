@@ -13,8 +13,8 @@ function setup() {
   // Draw the border ring using the PiecesOfGarbage class
   let centerX = 765;
   let centerY = 359;
-  let innerRadius = 550; // Inner radius of the ring
-  let outerRadius = innerRadius + 40; // Outer radius of the ring
+  let innerRadius = 520; // Inner radius of the crust
+  let outerRadius = innerCircleRadius + 40; // Outer radius of the border
   let numOfPoints = 360; // Number of points to draw the ring
   let angleIncrement = TWO_PI / numOfPoints;
 
@@ -32,13 +32,13 @@ function setup() {
     piecesOfGarbage.push(new PiecesOfGarbage(x, y, 1));
   }
 
-  // Other setup code...
-
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
+
+  // Other setup code...
 
   // Draw line around the outside of the inner circle
   let numOfPointsLine = 360; // Number of points to draw the line
@@ -166,4 +166,3 @@ class PiecesOfGarbage {
     }
   }
 }
-
