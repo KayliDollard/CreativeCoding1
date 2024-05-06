@@ -156,8 +156,8 @@ function createPiecesOfGarbage() {
   let centerX = 765;
   let centerY = 359;
 
-  // Add the first piece of garbage
-  let firstGarbage = new PiecesOfGarbage(755, 49, 10);
+  // Add the first piece of garbage at the top of the ring
+  let firstGarbage = new PiecesOfGarbage(765, 349, 10);
   piecesOfGarbage.push(firstGarbage);
 
   // Calculate the distance from the center of the ring, just inside the pie slices
