@@ -1,7 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let crustCircles = []; // Array to hold crust circles
+let crustRadius;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -9,26 +9,27 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  crustRadius = innerCircleRadius + 10; // Radius of the crust circle
 
-  // Create pie slices
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
-  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit"));
+  pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
-  // Draw crust circles
-  let numOfCircles = 20; // Number of circles for crust
-  let stepAngle = TWO_PI / numOfCircles;
+  // Draw line around the outside of the inner circle
+  let numOfPoints = 360; // Number of points to draw the line
+  let angleIncrement = TWO_PI / numOfPoints;
   let centerX = 765;
   let centerY = 359;
 
-  noFill();
   stroke(255); // Set line color to white
-  for (let i = 0; i < numOfCircles; i++) {
-    let radius = innerCircleRadius + 20 + i * 10; // Increase radius for each circle
-    circle(centerX, centerY, radius * 2);
-    crustCircles.push({ x: centerX, y: centerY, radius });
+  for (let i = 0; i < numOfPoints; i++) {
+    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
+    let x2 = centerX + crustRadius * cos(angleIncrement * i); // Crust circle radius
+    let y2 = centerY + crustRadius * sin(angleIncrement * i);
+    line(x1, y1, x2, y2);
   }
 }
 
@@ -42,13 +43,13 @@ function draw() {
   text("Y: " + mouseY, 100, 220);
 
   let scaleFactor = min(width / GeneMap.width, height / GeneMap.height);
-
+  
   let scaledWidth = GeneMap.width * scaleFactor;
   let scaledHeight = GeneMap.height * scaleFactor;
-
+  
   let posX = width / 2;
   let posY = height / 2;
-
+  
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
@@ -58,17 +59,36 @@ function draw() {
     slice.checkMouseOver();
   }
 
-  // Display and check mouse over for each crust circle
-  for (let circle of crustCircles) {
-    let { x, y, radius } = circle;
-    if (dist(mouseX, mouseY, x, y) < radius) {
-      // If mouse is over the current crust circle, change color
-      stroke(255, 0, 0); // Change color to red
-    } else {
-      stroke(255); // Set line color to white
+  // Draw crust circle
+  drawCrustCircle();
+}
+
+// Function to draw the crust circle
+function drawCrustCircle() {
+  let centerX = 765;
+  let centerY = 359;
+
+  // Draw the crust circle
+  stroke(255);
+  if (dist(mouseX, mouseY, centerX, centerY) < crustRadius) {
+    fill(255, 0, 0); // Change color when mouse is over
+  } else {
+    noFill(); // Transparent if mouse is not over
+  }
+  ellipse(centerX, centerY, crustRadius * 2);
+
+  // Erase the overlapping part with pie slices
+  for (let slice of pieSlices) {
+    let start = slice.startAngle - QUARTER_PI;
+    let end = slice.endAngle + QUARTER_PI;
+    beginShape();
+    vertex(centerX, centerY);
+    for (let angle = start; angle <= end; angle += 0.01) {
+      let x = centerX + crustRadius * cos(angle);
+      let y = centerY + crustRadius * sin(angle);
+      vertex(x, y);
     }
-    noFill();
-    circle(x, y, radius * 2);
+    endShape(CLOSE);
   }
 }
 
