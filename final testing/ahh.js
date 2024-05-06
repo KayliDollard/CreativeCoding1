@@ -10,6 +10,30 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
+  // Draw the border ring using the PiecesOfGarbage class
+  let centerX = 765;
+  let centerY = 359;
+  let innerRadius = 550; // Inner radius of the ring
+  let outerRadius = innerRadius + 40; // Outer radius of the ring
+  let numOfPoints = 360; // Number of points to draw the ring
+  let angleIncrement = TWO_PI / numOfPoints;
+
+  for (let i = 0; i < numOfPoints; i++) {
+    let angle = angleIncrement * i;
+    let x = centerX + innerRadius * cos(angle);
+    let y = centerY + innerRadius * sin(angle);
+    piecesOfGarbage.push(new PiecesOfGarbage(x, y, 1));
+  }
+
+  for (let i = 0; i < numOfPoints; i++) {
+    let angle = angleIncrement * i;
+    let x = centerX + outerRadius * cos(angle);
+    let y = centerY + outerRadius * sin(angle);
+    piecesOfGarbage.push(new PiecesOfGarbage(x, y, 1));
+  }
+
+  // Other setup code...
+
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
@@ -17,22 +41,17 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
   // Draw line around the outside of the inner circle
-  let numOfPoints = 360; // Number of points to draw the line
-  let angleIncrement = TWO_PI / numOfPoints;
-  let centerX = 765;
-  let centerY = 359;
+  let numOfPointsLine = 360; // Number of points to draw the line
+  let angleIncrementLine = TWO_PI / numOfPointsLine;
 
   stroke(255); // Set line color to white
-  for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i); // 20 is the distance from the inner circle
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
+  for (let i = 0; i < numOfPointsLine; i++) {
+    let x1 = centerX + innerCircleRadius * cos(angleIncrementLine * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrementLine * i);
+    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrementLine * i); // 20 is the distance from the inner circle
+    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrementLine * i);
     line(x1, y1, x2, y2);
   }
-
-  // Create pieces of garbage
-  createPiecesOfGarbage();
 }
 
 function draw() {
@@ -118,17 +137,16 @@ class PiecesOfGarbage {
     this.x = x;
     this.y = y;
     this.radius = radius;
-    this.fillColor = color(0, 0, 0, 0); // Transparent black
-    this.originalColor = color(169); // Original color for the garbage pieces
+    this.fillColor = color(0, 0, 0, 0); // Transparent fill
     this.mouseIsOver = false; // Initially, mouse is not over the garbage
   }
 
   // Display method
   display() {
     fill(this.fillColor);
-    stroke(169);
-    strokeWeight(1);
-    ellipse(this.x, this.y, this.radius * 2);
+    stroke(169); // Border color
+    strokeWeight(2); // Border thickness
+    ellipse(this.x, this.y, this.radius * 2); // Draw the piece of garbage
   }
 
   // Check if mouse is over the current piece of garbage
@@ -149,46 +167,3 @@ class PiecesOfGarbage {
   }
 }
 
-// Function to create pieces of garbage
-function createPiecesOfGarbage() {
-  let numOfGarbage = 504; // Number of pieces of garbage including the four points
-  let radiusIncrement = 15; // Increment in radius for each piece of garbage for closer overlap
-  let centerX = 765;
-  let centerY = 359;
-
-  // Calculate the distance from the center of the ring, just inside the pie slices
-  let distance = innerCircleRadius - 5; // Move the pieces inward just enough to barely touch the pie slices
-
-  // Calculate positions for the four points evenly spaced around the circular ring
-  let angleIncrement = TWO_PI / 4;
-  let angle1 = angleIncrement * 0;
-  let angle2 = angleIncrement * 1;
-  let angle3 = angleIncrement * 2;
-  let angle4 = angleIncrement * 3;
-  let x1 = centerX + distance * cos(angle1);
-  let y1 = centerY + distance * sin(angle1);
-  let x2 = centerX + distance * cos(angle2);
-  let y2 = centerY + distance * sin(angle2);
-  let x3 = centerX + distance * cos(angle3);
-  let y3 = centerY + distance * sin(angle3);
-  let x4 = centerX + distance * cos(angle4);
-  let y4 = centerY + distance * sin(angle4);
-
-  // Add the four points close to the circular ring
-  piecesOfGarbage.push(new PiecesOfGarbage(x1, y1, 10)); // First point
-  piecesOfGarbage.push(new PiecesOfGarbage(x2, y2, 10)); // Second point
-  piecesOfGarbage.push(new PiecesOfGarbage(x3, y3, 10)); // Third point
-  piecesOfGarbage.push(new PiecesOfGarbage(x4, y4, 10)); // Fourth point
-
-  // Calculate positions for the remaining pieces around the circular ring
-  for (let i = 4; i < numOfGarbage; i++) { // Start from index 4 to skip the manually added points
-    // Calculate angle evenly spread across the ring
-    let angle = map(i, 4, numOfGarbage, 0, TWO_PI);
-    
-    // Calculate position relative to the center of the ring
-    let x = centerX + distance * cos(angle);
-    let y = centerY + distance * sin(angle);
-
-    piecesOfGarbage.push(new PiecesOfGarbage(x, y, radiusIncrement));
-  }
-}
