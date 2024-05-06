@@ -1,6 +1,7 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550;
+let garbageSectorText;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -15,19 +16,9 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
-  let numOfPoints = 360;
-  let angleIncrement = TWO_PI / numOfPoints;
-  let centerX = 765;
-  let centerY = 359;
-
-  stroke(0); // Change stroke color to black
-  for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i);
-    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
-    line(x1, y1, x2, y2);
-  }
+  garbageSectorText = createP('Garbage Sector');
+  garbageSectorText.position(755, 49);
+  garbageSectorText.style('color', 'black');
 }
 
 function draw() {
@@ -35,7 +26,7 @@ function draw() {
   textSize(20);
 
   strokeWeight(1);
-  stroke(0); // Change stroke color to black
+  stroke(0);
   text("X: " + mouseX, 100, 200);
   text("Y: " + mouseY, 100, 220);
 
@@ -88,9 +79,11 @@ class PieSlice {
     if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
       this.fillColor = this.originalColor;
       this.displayText = true;
+      garbageSectorText.hide(); // Hide the text when mouse is over a pie slice
     } else {
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
+      garbageSectorText.show(); // Show the text when mouse is not over any pie slice
     }
   }
 }
