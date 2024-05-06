@@ -17,7 +17,7 @@ function setup() {
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
   garbageSectorText = createP('Garbage Sector');
-  garbageSectorText.position(705, 19); // Move up by 20 and to the left by 20 again
+  garbageSectorText.position(705, 19); 
   garbageSectorText.style('color', 'black');
   garbageSectorText.style('font-size', '30px');
 }
@@ -75,11 +75,11 @@ class PieSlice {
     if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
       this.fillColor = this.originalColor;
       this.displayText = true;
-      garbageSectorText.hide(); // Hide the text when mouse is over any pie slice
+      garbageSectorText.hide(); 
     } else {
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
-      garbageSectorText.show(); // Show the text when mouse is not over any pie slice
+      garbageSectorText.show(); 
     }
   }
 }
