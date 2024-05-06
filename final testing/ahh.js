@@ -1,8 +1,6 @@
 let GeneMap;
 let pieSlices = [];
-let innerCircleRadius = 550; // Radius of the inner circle
-let circleRadius = 30; // Radius of each circle
-let numCircles = 10; // Number of circles in the ring
+let innerCircleRadius = 550;
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -11,38 +9,23 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
 
-  // Draw the ring of circles
-  let centerX = 755; // Adjusted X coordinate for the first circle
-  let centerY = 49; // Adjusted Y coordinate for the first circle
-  let centerRingX = 764; // Center X coordinate for the ring of circles
-  let centerRingY = 355; // Center Y coordinate for the ring of circles
-  let angleIncrement = TWO_PI / numCircles; // Angle between each circle
-
-  for (let i = 0; i < numCircles; i++) {
-    let x = centerRingX + 105 * cos(angleIncrement * i); // 105 is the distance from the center of the ring
-    let y = centerRingY + 306 * sin(angleIncrement * i); // 306 is the distance from the center of the ring
-    ellipse(x, y, circleRadius * 2, circleRadius * 2);
-  }
-
-  // Draw the pie slices
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(216), radians(288), color('navy'), "Suburbs"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(288), radians(360), color('lightcoral'), "The Pit")); 
 
-  // Draw line around the outside of the inner circle
-  let numOfPoints = 360; // Number of points to draw the line
-  let angleIncrementLine = TWO_PI / numOfPoints;
-  let centerXLine = 765;
-  let centerYLine = 359;
+  let numOfPoints = 360;
+  let angleIncrement = TWO_PI / numOfPoints;
+  let centerX = 765;
+  let centerY = 359;
 
-  stroke(255); // Set line color to white
+  stroke(0); // Change stroke color to black
   for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerXLine + innerCircleRadius * cos(angleIncrementLine * i);
-    let y1 = centerYLine + innerCircleRadius * sin(angleIncrementLine * i);
-    let x2 = centerXLine + (innerCircleRadius + 20) * cos(angleIncrementLine * i); // 20 is the distance from the inner circle
-    let y2 = centerYLine + (innerCircleRadius + 20) * sin(angleIncrementLine * i);
+    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
+    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
+    let x2 = centerX + (innerCircleRadius + 20) * cos(angleIncrement * i);
+    let y2 = centerY + (innerCircleRadius + 20) * sin(angleIncrement * i);
     line(x1, y1, x2, y2);
   }
 }
@@ -52,7 +35,7 @@ function draw() {
   textSize(20);
 
   strokeWeight(1);
-  stroke(192, 57, 43);
+  stroke(0); // Change stroke color to black
   text("X: " + mouseX, 100, 200);
   text("Y: " + mouseY, 100, 220);
 
@@ -67,14 +50,12 @@ function draw() {
   imageMode(CENTER);
   image(GeneMap, posX, posY, scaledWidth, scaledHeight);
 
-  // Display and check mouse over for each pie slice
   for (let slice of pieSlices) {
     slice.display();
     slice.checkMouseOver();
   }
 }
 
-// PieSlice class definition
 class PieSlice {
   constructor(x, y, diameter, startAngle, endAngle, fillColor, name) {
     this.x = x;
@@ -82,14 +63,13 @@ class PieSlice {
     this.diameter = diameter;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
-    this.fillColor = color(0); // Set initial color to black
-    this.originalColor = fillColor; // Store the original color
+    this.fillColor = color(0);
+    this.originalColor = fillColor;
     this.name = name;
-    this.displayText = false; // Initially, the name text is not displayed
-    this.mouseIsOver = false; // Initially, mouse is not over the slice
+    this.displayText = false;
+    this.mouseIsOver = false;
   }
 
-  // Display method
   display() {
     fill(this.fillColor);
     arc(this.x, this.y, this.diameter, this.diameter, this.startAngle, this.endAngle, PIE);
@@ -100,21 +80,17 @@ class PieSlice {
     }
   }
 
-  // Check if mouse is over the current slice
   checkMouseOver() {
     let angle = atan2(mouseY - this.y, mouseX - this.x);
     if (angle < 0) {
-      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
+      angle += TWO_PI;
     }
     if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-      // If mouse is over the current slice, change color and display text
       this.fillColor = this.originalColor;
       this.displayText = true;
     } else {
-      // If mouse is not over the current slice, revert color and hide text
       this.fillColor = color(0, 0, 0, 0);
       this.displayText = false;
     }
   }
 }
-
