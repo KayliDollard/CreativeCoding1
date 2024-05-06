@@ -151,8 +151,8 @@ class PiecesOfGarbage {
 
 // Function to create pieces of garbage
 function createPiecesOfGarbage() {
-  let numOfGarbage = 500; // Increase the number of pieces of garbage
-  let radiusIncrement = 15; // Decrease the increment in radius for each piece of garbage for closer overlap
+  let numOfGarbage = 500; // Number of pieces of garbage
+  let radiusIncrement = 15; // Increment in radius for each piece of garbage for closer overlap
   let centerX = 765;
   let centerY = 359;
 
@@ -160,8 +160,8 @@ function createPiecesOfGarbage() {
     // Calculate angle evenly spread across the ring
     let angle = map(i, 0, numOfGarbage, 0, TWO_PI);
     
-    // Calculate the distance from the center of the ring
-    let distance = innerCircleRadius + 50; // Move the pieces out further
+    // Calculate the distance from the center of the ring, slightly smaller than the radius of the pie slices
+    let distance = innerCircleRadius - 20; // Move the pieces inward
     
     // Calculate position based on polar to Cartesian conversion
     let x = centerX + distance * cos(angle);
@@ -170,5 +170,4 @@ function createPiecesOfGarbage() {
     piecesOfGarbage.push(new PiecesOfGarbage(x, y, radiusIncrement));
   }
 }
-
 
