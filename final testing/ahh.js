@@ -151,25 +151,43 @@ class PiecesOfGarbage {
 
 // Function to create pieces of garbage
 function createPiecesOfGarbage() {
-  let numOfGarbage = 500; // Number of pieces of garbage
+  let numOfGarbage = 504; // Number of pieces of garbage including the four points
   let radiusIncrement = 15; // Increment in radius for each piece of garbage for closer overlap
   let centerX = 765;
   let centerY = 359;
 
-  // Add the first piece of garbage at the top of the ring
-  let firstGarbage = new PiecesOfGarbage(765, 349, 10);
-  piecesOfGarbage.push(firstGarbage);
-
   // Calculate the distance from the center of the ring, just inside the pie slices
   let distance = innerCircleRadius - 5; // Move the pieces inward just enough to barely touch the pie slices
 
-  for (let i = 1; i < numOfGarbage; i++) { // Start from index 1 to skip the manually added piece
+  // Calculate positions for the four points evenly spaced around the circular ring
+  let angleIncrement = TWO_PI / 4;
+  let angle1 = angleIncrement * 0;
+  let angle2 = angleIncrement * 1;
+  let angle3 = angleIncrement * 2;
+  let angle4 = angleIncrement * 3;
+  let x1 = centerX + distance * cos(angle1);
+  let y1 = centerY + distance * sin(angle1);
+  let x2 = centerX + distance * cos(angle2);
+  let y2 = centerY + distance * sin(angle2);
+  let x3 = centerX + distance * cos(angle3);
+  let y3 = centerY + distance * sin(angle3);
+  let x4 = centerX + distance * cos(angle4);
+  let y4 = centerY + distance * sin(angle4);
+
+  // Add the four points close to the circular ring
+  piecesOfGarbage.push(new PiecesOfGarbage(x1, y1, 10)); // First point
+  piecesOfGarbage.push(new PiecesOfGarbage(x2, y2, 10)); // Second point
+  piecesOfGarbage.push(new PiecesOfGarbage(x3, y3, 10)); // Third point
+  piecesOfGarbage.push(new PiecesOfGarbage(x4, y4, 10)); // Fourth point
+
+  // Calculate positions for the remaining pieces around the circular ring
+  for (let i = 4; i < numOfGarbage; i++) { // Start from index 4 to skip the manually added points
     // Calculate angle evenly spread across the ring
-    let angle = map(i, 0, numOfGarbage, 0, TWO_PI);
+    let angle = map(i, 4, numOfGarbage, 0, TWO_PI);
     
-    // Calculate position relative to the first piece of garbage
-    let x = firstGarbage.x + distance * cos(angle);
-    let y = firstGarbage.y + distance * sin(angle);
+    // Calculate position relative to the center of the ring
+    let x = centerX + distance * cos(angle);
+    let y = centerY + distance * sin(angle);
 
     piecesOfGarbage.push(new PiecesOfGarbage(x, y, radiusIncrement));
   }
