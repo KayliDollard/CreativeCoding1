@@ -1,7 +1,8 @@
 let GeneMap;
 let pieSlices = [];
 let innerCircleRadius = 550; // Radius of the inner circle
-let crustRadius;
+let circleRadius = 30; // Radius of each circle
+let numCircles = 10; // Number of circles in the ring
 
 function preload() {
   GeneMap = loadImage('mapforGE.png');
@@ -9,8 +10,19 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  crustRadius = innerCircleRadius + 10; // Radius of the crust circle
 
+  // Draw the ring of circles
+  let centerX = 764;
+  let centerY = 355;
+  let angleIncrement = TWO_PI / numCircles; // Angle between each circle
+
+  for (let i = 0; i < numCircles; i++) {
+    let x = centerX + 105 * cos(angleIncrement * i); // 105 is the distance from the center of the ring
+    let y = centerY + 306 * sin(angleIncrement * i); // 306 is the distance from the center of the ring
+    ellipse(x, y, circleRadius * 2, circleRadius * 2);
+  }
+
+  // Draw the pie slices
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(0), radians(72), color('firebrick'), "Dr. Reds"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(72), radians(144), color('coral'), "The Den"));
   pieSlices.push(new PieSlice(765, 359, innerCircleRadius, radians(144), radians(216), color('#FFD700'), "Old Town")); 
@@ -19,16 +31,16 @@ function setup() {
 
   // Draw line around the outside of the inner circle
   let numOfPoints = 360; // Number of points to draw the line
-  let angleIncrement = TWO_PI / numOfPoints;
-  let centerX = 765;
-  let centerY = 359;
+  let angleIncrementLine = TWO_PI / numOfPoints;
+  let centerXLine = 765;
+  let centerYLine = 359;
 
   stroke(255); // Set line color to white
   for (let i = 0; i < numOfPoints; i++) {
-    let x1 = centerX + innerCircleRadius * cos(angleIncrement * i);
-    let y1 = centerY + innerCircleRadius * sin(angleIncrement * i);
-    let x2 = centerX + crustRadius * cos(angleIncrement * i); // Crust circle radius
-    let y2 = centerY + crustRadius * sin(angleIncrement * i);
+    let x1 = centerXLine + innerCircleRadius * cos(angleIncrementLine * i);
+    let y1 = centerYLine + innerCircleRadius * sin(angleIncrementLine * i);
+    let x2 = centerXLine + (innerCircleRadius + 20) * cos(angleIncrementLine * i); // 20 is the distance from the inner circle
+    let y2 = centerYLine + (innerCircleRadius + 20) * sin(angleIncrementLine * i);
     line(x1, y1, x2, y2);
   }
 }
@@ -57,38 +69,6 @@ function draw() {
   for (let slice of pieSlices) {
     slice.display();
     slice.checkMouseOver();
-  }
-
-  // Draw crust circle
-  drawCrustCircle();
-}
-
-// Function to draw the crust circle
-function drawCrustCircle() {
-  let centerX = 765;
-  let centerY = 359;
-
-  // Draw the crust circle
-  stroke(255);
-  if (dist(mouseX, mouseY, centerX, centerY) < crustRadius) {
-    fill(255, 0, 0); // Change color when mouse is over
-  } else {
-    noFill(); // Transparent if mouse is not over
-  }
-  ellipse(centerX, centerY, crustRadius * 2);
-
-  // Erase the overlapping part with pie slices
-  for (let slice of pieSlices) {
-    let start = slice.startAngle - QUARTER_PI;
-    let end = slice.endAngle + QUARTER_PI;
-    beginShape();
-    vertex(centerX, centerY);
-    for (let angle = start; angle <= end; angle += 0.01) {
-      let x = centerX + crustRadius * cos(angle);
-      let y = centerY + crustRadius * sin(angle);
-      vertex(x, y);
-    }
-    endShape(CLOSE);
   }
 }
 
@@ -119,20 +99,20 @@ class PieSlice {
   }
 
   // Check if mouse is over the current slice
-  checkMouseOver() {
-    let angle = atan2(mouseY - this.y, mouseX - this.x);
-    if (angle < 0) {
-      angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
-    }
-    if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
-      // If mouse is over the current slice, change color and display text
-      this.fillColor = this.originalColor;
-      this.displayText = true;
-    } else {
-      // If mouse is not over the current slice, revert color and hide text
-      this.fillColor = color(0, 0, 0, 0);
-      this.displayText = false;
-    }
+checkMouseOver() {
+  let angle = atan2(mouseY - this.y, mouseX - this.x);
+  if (angle < 0) {
+    angle += TWO_PI; // Normalize angle to be between 0 and TWO_PI
   }
+  if (angle > this.startAngle && angle < this.endAngle && dist(mouseX, mouseY, this.x, this.y) < this.diameter / 2) {
+    // If mouse is over the current slice, change color and display text
+    this.fillColor = this.originalColor;
+    this.displayText = true;
+  } else {
+    // If mouse is not over the current slice, revert color and hide text
+    this.fillColor = color(0, 0, 0, 0);
+    this.displayText = false;
+  }
+}
 }
 
